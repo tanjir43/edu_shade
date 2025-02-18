@@ -25,7 +25,7 @@ return new class extends Migration
             $table->tinyInteger('access_status')->nullable()->default(1);
 
             # Profile Details
-            $table->string('language', 10)->default('en')->index();
+            $table->unsignedBigInteger('language_id')->default(19);
             $table->integer('style_id')->default(1);
             $table->boolean('rtl_ltl')->default(0);     # 0 = LTR, 1 = RTL
             $table->unsignedBigInteger('school_session_id')->default(1);
@@ -42,9 +42,9 @@ return new class extends Migration
             $table->rememberToken();
 
             # Foreign Keys with Proper Indexing
-            $table->unsignedBigInteger('branch_id')->nullable();
-            $table->unsignedBigInteger('school_id')->default(1);
             $table->unsignedBigInteger('role_id')->default(1);
+            $table->unsignedBigInteger('school_id')->default(1);
+            $table->unsignedBigInteger('branch_id')->nullable();
             $table->unsignedBigInteger('created_by')->default(1);
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->unsignedBigInteger('deleted_by')->nullable();
@@ -55,6 +55,7 @@ return new class extends Migration
             $table->softDeletes();
 
             # Foreign Keys
+            $table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade');
             $table->foreign('school_session_id')->references('id')->on('school_sessions')->onDelete('cascade');
             $table->foreign('branch_id')->references('id')->on('schools')->onDelete('cascade');
             $table->foreign('school_id')->references('id')->on('schools')->onDelete('cascade');

@@ -38,7 +38,6 @@ return new class extends Migration
 
             # Indexing
             $table->index(['email', 'domain', 'school_code']);
-            $table->index('region');
         });
     }
 

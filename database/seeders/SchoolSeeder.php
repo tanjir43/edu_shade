@@ -24,7 +24,6 @@ class SchoolSeeder extends Seeder
             'is_email_verified' => 1,
             'active_status'     => 1,
             'is_enabled'        => 'yes',
-            'starting_date'     => now(),
             'created_by'        => 1,
         ];
 

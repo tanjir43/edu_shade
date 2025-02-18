@@ -128,7 +128,7 @@ class LanguageSeeder extends Seeder
             [111, 'vi', 'Vietnamese', 'Tiếng Việt', 0 ,0],
             [112, 'xh', 'Xhosa', 'isiXhosa', 0 ,0],
             [113, 'zh', 'Chinese', '中文', 0 ,0],
-            [114, 'zu', 'Zulu', 'isiZulu', 0]
+            [114, 'zu', 'Zulu', 'isiZulu', 0, 0]
         ];
 
         foreach ($languages as $language) {

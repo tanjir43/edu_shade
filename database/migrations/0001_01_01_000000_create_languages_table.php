@@ -21,10 +21,6 @@ return new class extends Migration
             $table->unsignedBigInteger('school_id')->default(1)->index();
             $table->unsignedBigInteger('branch_id')->nullable()->index();
 
-            # Foreign Keys
-            $table->foreign('school_id')->references('id')->on('schools')->onDelete('cascade');
-            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
-
             $table->index(['school_id', 'branch_id', 'active_status']);
             $table->index(['code', 'rtl']);
 
