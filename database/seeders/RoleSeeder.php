@@ -36,7 +36,6 @@ class RoleSeeder extends Seeder
             Role::updateOrCreate(
                 [
                     'name' => $roleName,
-                    'branch_id' => 1,
                     'school_id' => 1,
                 ],
                 [

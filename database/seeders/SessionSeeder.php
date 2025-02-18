@@ -16,7 +16,6 @@ class SessionSeeder extends Seeder
         $sessions = [
 
             'school_id'     => 1,
-            'branch_id'     => 1,
             'name'          => '2021-2022',
             'session_code'  => '2021-2022',
             'active_status' => 1,

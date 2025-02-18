@@ -30,26 +30,24 @@ return new class extends Migration
             $table->boolean('rtl_ltl')->default(0);     # 0 = LTR, 1 = RTL
             $table->unsignedBigInteger('school_session_id')->default(1);
 
-            # Foreign Keys with Proper Indexing
-            $table->unsignedBigInteger('branch_id')->default(1);
-
-            $table->unsignedBigInteger('school_id')->default(1);
-            $table->unsignedBigInteger('role_id')->default(1);
-            $table->unsignedBigInteger('created_by')->default(1);
-            $table->unsignedBigInteger('updated_by')->nullable();
-            $table->unsignedBigInteger('deleted_by')->nullable();
-
             # Admin & Verification Status
             $table->enum('is_administrator', ['yes', 'no'])->default('no');
             $table->boolean('is_registered')->default(0);
             $table->boolean('verified')->default(0);
 
             # Authentication & Security
-            $table->text('random_code')->nullable();
             $table->text('notification_token')->nullable();
             $table->text('device_token')->nullable();
 
             $table->rememberToken();
+
+            # Foreign Keys with Proper Indexing
+            $table->unsignedBigInteger('branch_id')->nullable();
+            $table->unsignedBigInteger('school_id')->default(1);
+            $table->unsignedBigInteger('role_id')->default(1);
+            $table->unsignedBigInteger('created_by')->default(1);
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->unsignedBigInteger('deleted_by')->nullable();
 
             # Indexing
             $table->index(['name', 'email', 'phone_number']);

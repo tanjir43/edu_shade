@@ -15,18 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name', 250);
 
-            # User References
-            $table->unsignedBigInteger('created_by')->default(1);
-            $table->unsignedBigInteger('updated_by')->default(1);
-            $table->unsignedBigInteger('deleted_by')->nullable();
-
             # Contact & Identification
             $table->string('email', 200)->nullable()->unique();
             $table->string('domain', 191)->default('school')->unique();
+            $table->string('school_code', 200)->nullable()->unique();
             $table->text('address')->nullable();
             $table->string('phone', 20)->nullable();
-            $table->string('school_code', 200)->nullable()->unique();
-            $table->boolean('is_show_branch')->default(0);
 
             # Verification & Status
             $table->boolean('is_email_verified')->default(0);
@@ -40,6 +34,10 @@ return new class extends Migration
             $table->unsignedInteger('region')->nullable();
             $table->enum('contact_type', ['yearly', 'monthly', 'once'])->nullable();
 
+            # User References
+            $table->unsignedBigInteger('created_by')->default(1);
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->unsignedBigInteger('deleted_by')->nullable();
 
             # Timestamps & Soft Deletes
             $table->timestamps();
