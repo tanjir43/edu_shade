@@ -26,6 +26,7 @@ class SchoolSeeder extends Seeder
             'is_enabled'        => 'yes',
             'starting_date'     => now(),
             'created_by'        => 1,
+            'is_show_branch'    => 0,
         ];
 
         School::create($schools);

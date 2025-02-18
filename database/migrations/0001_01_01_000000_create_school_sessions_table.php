@@ -11,23 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('branches', function (Blueprint $table) {
+        Schema::create('school_sessions', function (Blueprint $table) {
             $table->id();
             $table->string('name', 200)->index();
+            $table->string('session_code', 200)->nullable()->unique();
+            $table->tinyInteger('active_status')->default(1);
+
+            # Foreign Keys
             $table->unsignedBigInteger('school_id')->index();
-            $table->string('email', 191)->nullable()->unique();
-            $table->string('phone', 20)->nullable();
-            $table->text('address')->nullable();
-            $table->string('branch_code', 200)->nullable()->unique();
-            $table->tinyInteger('active_status')->default(1)->comment('1 = Active, 0 = Inactive');
+            $table->unsignedBigInteger('branch_id')->index()->nullable();
             $table->unsignedBigInteger('created_by')->nullable()->index();
             $table->unsignedBigInteger('updated_by')->nullable()->index();
             $table->unsignedBigInteger('deleted_by')->nullable()->index();
+
+            # Timestamps & Soft Deletes
             $table->timestamps();
             $table->softDeletes();
-
-            # Foreign Keys
-            $table->foreign('school_id')->references('id')->on('schools')->onDelete('cascade');
         });
     }
 
@@ -36,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('branches');
+        Schema::dropIfExists('school_sessions');
     }
 };

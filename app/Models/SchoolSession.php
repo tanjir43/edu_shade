@@ -5,22 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Branch extends Model
+class SchoolSession extends Model
 {
     use SoftDeletes;
 
     protected $fillable = [
         'school_id',
+        'branch_id',
         'name',
-        'email',
-        'domain',
-        'address',
-        'phone',
-        'branch_code',
         'active_status',
-        'is_enabled',
-        'starting_date',
-        'ending_date',
         'created_by',
         'updated_by',
         'deleted_by',
@@ -39,5 +32,15 @@ class Branch extends Model
     public function deletedBy()
     {
         return $this->belongsTo(User::class, 'deleted_by', 'id');
+    }
+
+    public function school()
+    {
+        return $this->belongsTo(School::class, 'school_id', 'id');
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class, 'branch_id', 'id');
     }
 }

@@ -28,14 +28,16 @@ return new class extends Migration
             $table->string('language', 10)->default('en')->index();
             $table->integer('style_id')->default(1);
             $table->boolean('rtl_ltl')->default(0);     # 0 = LTR, 1 = RTL
-            $table->integer('session_id')->default(1);
+            $table->unsignedBigInteger('school_session_id')->default(1);
 
             # Foreign Keys with Proper Indexing
             $table->unsignedBigInteger('branch_id')->default(1);
-            $table->foreign('branch_id')->references('id')->on('schools')->onDelete('cascade');
 
             $table->unsignedBigInteger('school_id')->default(1);
             $table->unsignedBigInteger('role_id')->default(1);
+            $table->unsignedBigInteger('created_by')->default(1);
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->unsignedBigInteger('deleted_by')->nullable();
 
             # Admin & Verification Status
             $table->enum('is_administrator', ['yes', 'no'])->default('no');
@@ -55,7 +57,7 @@ return new class extends Migration
             $table->softDeletes();
 
             # Foreign Keys
-            $table->foreign('session_id')->references('id')->on('sessions')->onDelete('cascade');
+            $table->foreign('school_session_id')->references('id')->on('school_sessions')->onDelete('cascade');
             $table->foreign('branch_id')->references('id')->on('schools')->onDelete('cascade');
             $table->foreign('school_id')->references('id')->on('schools')->onDelete('cascade');
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');

@@ -26,16 +26,16 @@ return new class extends Migration
             $table->text('address')->nullable();
             $table->string('phone', 20)->nullable();
             $table->string('school_code', 200)->nullable()->unique();
+            $table->boolean('is_show_branch')->default(0);
 
             # Verification & Status
             $table->boolean('is_email_verified')->default(0);
             $table->unsignedTinyInteger('active_status')->default(1)->comment("1 = Approved, 0 = Pending");
             $table->enum('is_enabled', ['yes', 'no'])->default('yes')->comment("yes = Login Enabled, no = Login Disabled");
 
-            # Subscription & Package Details
+            # Subscription  Details
             $table->date('starting_date')->nullable();
             $table->date('ending_date')->nullable();
-            $table->unsignedBigInteger('package_id')->nullable();
             $table->string('plan_type', 200)->nullable();
             $table->unsignedInteger('region')->nullable();
             $table->enum('contact_type', ['yearly', 'monthly', 'once'])->nullable();
@@ -47,13 +47,7 @@ return new class extends Migration
 
             # Indexing
             $table->index(['email', 'domain', 'school_code']);
-            $table->index('package_id');
             $table->index('region');
-
-            # Foreign Keys
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('deleted_by')->references('id')->on('users')->onDelete('set null');
         });
     }
 
