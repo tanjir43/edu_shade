@@ -27,13 +27,6 @@ return new class extends Migration
             $table->unsignedTinyInteger('active_status')->default(1)->comment("1 = Approved, 0 = Pending");
             $table->enum('is_enabled', ['yes', 'no'])->default('yes')->comment("yes = Login Enabled, no = Login Disabled");
 
-            # Subscription  Details
-            $table->date('starting_date')->nullable();
-            $table->date('ending_date')->nullable();
-            $table->string('plan_type', 200)->nullable();
-            $table->unsignedInteger('region')->nullable();
-            $table->enum('contact_type', ['yearly', 'monthly', 'once'])->nullable();
-
             # User References
             $table->unsignedBigInteger('created_by')->default(1);
             $table->unsignedBigInteger('updated_by')->nullable();

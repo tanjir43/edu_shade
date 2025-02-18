@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('branches', function (Blueprint $table) {
             $table->id();
             $table->string('name', 200)->index();
-            $table->unsignedBigInteger('school_id')->index();
+            $table->string('branch_code', 200)->nullable()->unique();
             $table->string('email', 191)->nullable()->unique();
             $table->string('phone', 20)->nullable();
             $table->text('address')->nullable();
-            $table->string('branch_code', 200)->nullable()->unique();
+            $table->unsignedBigInteger('school_id')->index();
             $table->tinyInteger('active_status')->default(1)->comment('1 = Active, 0 = Inactive');
             $table->unsignedBigInteger('created_by')->nullable()->index();
             $table->unsignedBigInteger('updated_by')->nullable()->index();

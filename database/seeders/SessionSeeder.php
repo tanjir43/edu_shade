@@ -16,11 +16,10 @@ class SessionSeeder extends Seeder
         $sessions = [
 
             'school_id'     => 1,
-            'name'          => '2021-2022',
-            'session_code'  => '2021-2022',
+            'name'          => '2025-2026',
+            'session_code'  => '2025-2026',
             'active_status' => 1,
             'created_by'    => 1,
-
         ];
 
         SchoolSession::create($sessions);
