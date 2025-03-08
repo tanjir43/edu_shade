@@ -18,6 +18,8 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('user.dashboard');
+    Route::get('/admin-dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/users', [DashboardController::class, 'index'])->name('users');
+    Route::get('/setting', [DashboardController::class, 'index'])->name('setting');
 
 });

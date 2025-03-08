@@ -6,4 +6,5 @@
 
 
 <!-- Custom CSS -->
-<link rel="stylesheet" href="{{ asset('custom/dashboad.css') }}">
+<link rel="stylesheet" href="{{ asset('custom/css/dashboad.css') }}">
+<link rel="stylesheet" href="{{ asset('custom/css/global.css') }}">

@@ -12,25 +12,26 @@
             <li class="side-nav-title side-nav-item">Navigation</li>
 
             <li class="side-nav-item">
-                <a href="" class="side-nav-link">
+                <a href="{{ route('admin.dashboard') }}" class="side-nav-link {{ request()->is('admin.dashboard') ? 'active' : '' }}">
                     <i class="mdi mdi-home"></i>
                     <span> Dashboard </span>
                 </a>
             </li>
 
             <li class="side-nav-item">
-                <a href="" class="side-nav-link">
+                <a href="{{ route('users') }}" class="side-nav-link {{ request()->is('users') ? 'active' : '' }}">
                     <i class="mdi mdi-account"></i>
                     <span> Users </span>
                 </a>
             </li>
 
             <li class="side-nav-item">
-                <a href="" class="side-nav-link">
-                    <i class="mdi mdi-settings"></i>
-                    <span> Settings </span>
+                <a href="{{ route('setting') }}" class="side-nav-link {{ request()->is('setting') ? 'active' : '' }}">
+                    <i class="mdi mdi-cogs"></i>
+                    <span> setting </span>
                 </a>
             </li>
+
         </ul>
         <div class="clearfix"></div>
     </div>

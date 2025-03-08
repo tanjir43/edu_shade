@@ -19131,10 +19131,11 @@ div.table-responsive > div.dataTables_wrapper > div.row > div[class^="col-"]:fir
 }
 
 a.side-nav-link.active {
-    background-color: #62a18b;
+    color: #ffffff !important;
     margin: 0 8px 0.2rem;
     border-radius: 5px;
     padding: 0.5rem 0.8rem;
+    font-weight: 900;
 }
 
 .side-nav-second-level .menuitem-active .active{
