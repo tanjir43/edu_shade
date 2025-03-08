@@ -67,7 +67,7 @@
                 <div class="dropdown-header noti-title">
                     <h6 class="text-overflow m-0 text-center text-uppercase font-weight-bold" style="font-size: 13px">Welcome!</h6>
                 </div>
-                <a href="#" class="dropdown-item notify-item">
+                <a href="{{route('profile.show')}}" class="dropdown-item notify-item">
                     <i class="mdi mdi-account-circle me-1"></i>
                     <span>My Account Settings</span>
                 </a>
