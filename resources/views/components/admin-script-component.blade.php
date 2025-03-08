@@ -1,5 +1,3 @@
-
-
 <script src="{{ asset('js/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('saas/js/vendor.min.js') }}"></script>
 <script src="{{ asset('saas/js/app.min.js') }}"></script>
