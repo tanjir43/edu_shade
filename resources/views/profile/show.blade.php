@@ -24,5 +24,4 @@
     <div class="card shadow-sm p-4 mt-4 mb-4">
         @include('profile.logout-other-browser-sessions')
     </div>
-</div>
 @endsection

@@ -25,5 +25,4 @@ Route::middleware([
     # Auth
     Route::get('profile', [UserProfileController::class, 'show'])->name('profile.show');
     Route::get('logout', [AuthenticatedSessionController::class, 'logout']);
-
 });
