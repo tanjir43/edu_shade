@@ -3,10 +3,6 @@
 <script src="{{ asset('saas/js/app.min.js') }}"></script>
 <script src="{{ asset('js/jsLang.js') }}"></script>
 
-{{-- university blade --}}
-<script src="{{ asset('nice-select.min.js') }}"></script>
-<script src="{{ asset('backEnd/js/main.js') }}"></script>
-
 <script>
     const openLeft = $('#open_left');
     const topSearch = $('#top-search');
@@ -21,7 +17,6 @@
         });
     });
 </script>
-
 
 {{--Alert JS Start--}}
 <script  src="{{asset('common/js/sweetalert2.min.js')}}"></script>

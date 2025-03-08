@@ -53,7 +53,7 @@
                             <p class="blog-user-name article-reply-name">{{ $reply->name }}</p>
                             <p class="blog-time text-all-replies">
                                 <img src="{{ asset('assets/website_icon/conversation.png') }}" class="mr-1" width="12px" style="color: gray" alt="">
-                                <span>Reply to <strong>{{ $comment->name }}</strong></span> 
+                                <span>Reply to <strong>{{ $comment->name }}</strong></span>
                                  <i class="fa fa-clock mr-1 ml-2"></i>
                                  {{ commonDateFormat($reply->created_at) }}
                             </p>

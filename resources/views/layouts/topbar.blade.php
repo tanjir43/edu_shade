@@ -4,7 +4,7 @@
 
 <div class="navbar-custom">
     <ul class="list-unstyled topbar-menu float-end mb-0">
-        <li class="dropdown notification-list d-lg-none">
+        <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                 <i class="dripicons-search noti-icon"></i>
             </a>
@@ -56,7 +56,7 @@
         <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle nav-user arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                 <span class="account-user-avatar">
-                    <img src="{{ asset('images/default-user.png') }}" alt="User" class="rounded-circle">
+                    <img src="{{ asset('images/min-none-default.png') }}" alt="User" class="rounded-circle">
                 </span>
                 <span>
                     <span class="account-user-name">User Name</span>

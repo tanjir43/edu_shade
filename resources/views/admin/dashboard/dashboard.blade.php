@@ -1,6 +1,5 @@
 @extends('layouts.admin')
 
 @section('content')
-
-    @include('dashboard-item')
+    @include('admin.dashboard.user-overview')
 @endsection
