@@ -1,8 +1,10 @@
 <div class="mb-4">
     <h4 class="mb-3">Profile Information</h4>
+
     <form action="{{ route('user-profile-information.update') }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
+
         <div class="row">
             <div class="col-4">
                 <div class="mb-3">
@@ -32,5 +34,4 @@
 
         <button type="submit" class="btn btn-primary">Save</button>
     </form>
-
 </div>

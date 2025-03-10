@@ -6,7 +6,7 @@ use App\Http\Controllers\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Auth\UserProfileController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Route::post('/login', [AuthenticatedSessionController::class, 'store']);
@@ -24,5 +24,6 @@ Route::middleware([
 
     # Auth
     Route::get('profile', [UserProfileController::class, 'show'])->name('profile.show');
+    Route::put('update-password', [UserProfileController::class, 'updatePassword'])->name('password.update');
     Route::get('logout', [AuthenticatedSessionController::class, 'logout']);
 });
