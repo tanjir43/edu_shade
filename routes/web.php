@@ -14,7 +14,7 @@ Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 //Route::get('verify-user/{code}/{client_id?}', 'VerifyEmailController@activateUser')->name('activate.user');
 
 Route::middleware([
-    'auth:sanctum',
+    'auth',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
@@ -22,8 +22,11 @@ Route::middleware([
     Route::get('/users', [DashboardController::class, 'index'])->name('users');
     Route::get('/setting', [DashboardController::class, 'index'])->name('setting');
 
-    # Auth
+    # Authenticated User Routes
     Route::get('profile', [UserProfileController::class, 'show'])->name('profile.show');
     Route::put('update-password', [UserProfileController::class, 'updatePassword'])->name('password.update');
-    Route::get('logout', [AuthenticatedSessionController::class, 'logout']);
+    Route::post('/logout-other-sessions', [UserProfileController::class, 'logoutOtherSessions'])->name('logout.other.sessions');
+
+    # Logout Route (Fix)
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
