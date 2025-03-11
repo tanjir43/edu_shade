@@ -31,8 +31,8 @@ Route::middleware([
 
     # Settings
     Route::group(['prefix' => 'settings'], function () {
-        Route::get('general-settings', [SystemSettingController::class, 'generalSettings']);
-        Route::post('settings-save', [SystemSettingController::class, 'settingsSave']);
+        Route::get('system-settings', [SystemSettingController::class, 'systemSettings']);
+        Route::post('system-settings-save', [SystemSettingController::class, 'systemSettingsSave']);
     });
 
     # Logout Route (Fix)
