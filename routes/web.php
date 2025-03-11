@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
+use App\Http\Controllers\Admin\Settings\SystemSettingController;
 use App\Http\Controllers\Auth\UserProfileController;
 
 Route::get('/', function () {
@@ -26,6 +27,13 @@ Route::middleware([
     Route::get('profile', [UserProfileController::class, 'show'])->name('profile.show');
     Route::put('update-password', [UserProfileController::class, 'updatePassword'])->name('password.update');
     Route::post('/logout-other-sessions', [UserProfileController::class, 'logoutOtherSessions'])->name('logout.other.sessions');
+
+
+    # Settings
+    Route::group(['prefix' => 'settings'], function () {
+        Route::get('general-settings', [SystemSettingController::class, 'generalSettings']);
+        Route::post('settings-save', [SystemSettingController::class, 'settingsSave']);
+    });
 
     # Logout Route (Fix)
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');

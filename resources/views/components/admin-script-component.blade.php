@@ -27,4 +27,14 @@
 {{--Alert JS End--}}
 
 @include('common.sweetalert-msg')
+
+@if(session('alert_type') == 'toastr')
+    @if($errors->any())
+        @foreach ($errors->all() as $error)
+            <script>
+                toastr.error('{{ $error }}', 'Error!');
+            </script>
+        @endforeach
+    @endif
+@endif
 @stack('scripts')
