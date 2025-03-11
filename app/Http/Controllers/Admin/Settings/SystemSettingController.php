@@ -8,19 +8,27 @@ use Illuminate\Http\Request;
 
 class SystemSettingController extends Controller
 {
+
+    protected $user;
+
+    public function __construct()
+    {
+        $this->user = auth()->user();
+    }
+
     public function systemSettings(SystemSettingService $settingService, Request $request) {
-        // if ($can = Utils::userCan($this->user, 'settings.view')) {
-        //     return $can;
-        // }
+        if ($can = user_can($this->user, 'settings.view')) {
+            return $can;
+        }
 
         $settings  = $settingService->all();
         return redirect()->back()->with('success', 'Password updated successfully.')->with('alert_type', 'toastr');
     }
 
     public function systemSettingsSave(Request $request, SystemSettingService $settingService) {
-        // if ($can = Utils::userCan($this->user, 'settings.save')) {
-        //     return $can;
-        // }
+        if ($can = user_can($this->user, 'settings.save')) {
+            return $can;
+        }
 
         if ($request->has('delete_key')) {
             $settingService->delete($request->delete_key);

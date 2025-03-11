@@ -41,7 +41,8 @@
         },
         "files": [
             "app/Helpers/AlertHelper.php",
-            "app/Helpers/ResponseHelper.php"
+            "app/Helpers/ResponseHelper.php",
+            "app/Helpers/Helper.php"
         ]
     },
     "scripts": {
