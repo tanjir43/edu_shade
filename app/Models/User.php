@@ -9,11 +9,12 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
 
-    use HasFactory, Notifiable, HasProfilePhoto, TwoFactorAuthenticatable, HasApiTokens;
+    use HasFactory, Notifiable, HasProfilePhoto, TwoFactorAuthenticatable, HasApiTokens, HasRoles;
 
     protected $fillable = [
         'name',
