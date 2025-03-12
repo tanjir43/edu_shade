@@ -29,6 +29,7 @@ return new class extends Migration
             $table->integer('style_id')->default(1);
             $table->boolean('rtl_ltl')->default(0);     # 0 = LTR, 1 = RTL
             $table->unsignedBigInteger('school_session_id')->default(1);
+            $table->string('profile_photo_path', 2048)->nullable();
 
             # Admin & Verification Status
             $table->enum('is_administrator', ['yes', 'no'])->default('no');

@@ -24,7 +24,7 @@ use Laravel\Socialite\Facades\Socialite;
 class AuthenticatedSessionController extends Controller
 {
     protected $guard;
-    public const DASHBOARD = '/dashboard';
+    public const DASHBOARD = '/admin-dashboard';
 
     public function __construct(StatefulGuard $guard)
     {
@@ -34,9 +34,6 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request)
     {
         return $this->loginPipeline($request)->then(function ($request) {
-            $user = Auth::user();
-            #session()->put('permissions', json_decode($user->role->permissions));
-            #session()->put('locale', $user->default_lan);
 
             Config::set('fortify.home', self::DASHBOARD);
 

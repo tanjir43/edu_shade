@@ -26,6 +26,9 @@
 <script  src="{{asset('common/js/common.js')}}"></script>
 {{--Alert JS End--}}
 
+{{--Custom JS Start--}}
+<script  src="{{asset('custom/js/profile.js')}}"></script>
+
 @include('common.sweetalert-msg')
 
 @if(session('alert_type') == 'toastr')
