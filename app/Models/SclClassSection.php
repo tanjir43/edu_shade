@@ -21,49 +21,31 @@ class SclClassSection extends Model
         'active_status',
     ];
 
-    /**
-     * Get the class that owns the class section
-     */
     public function class()
     {
         return $this->belongsTo(SclClass::class, 'scl_class_id');
     }
 
-    /**
-     * Get the section that owns the class section
-     */
     public function section()
     {
         return $this->belongsTo(Section::class);
     }
 
-    /**
-     * Get the school that owns the class section
-     */
     public function school()
     {
         return $this->belongsTo(School::class);
     }
 
-    /**
-     * Get the branch that owns the class section (if applicable)
-     */
     public function branch()
     {
         return $this->belongsTo(Branch::class);
     }
 
-    /**
-     * Get the academic year that owns the class section
-     */
     public function academicYear()
     {
         return $this->belongsTo(AcademicYear::class);
     }
 
-    /**
-     * Get all students in this class section for the current academic year
-     */
     public function students()
     {
         return $this->hasMany(Student::class, 'section_id', 'section_id')
@@ -71,9 +53,6 @@ class SclClassSection extends Model
             ->where('academic_year_id', $this->academic_year_id);
     }
 
-    /**
-     * Get all teacher sections for this class section
-     */
     public function teacherSections()
     {
         return $this->hasMany(TeacherSection::class, 'section_id', 'section_id')
@@ -81,17 +60,11 @@ class SclClassSection extends Model
             ->where('academic_year_id', $this->academic_year_id);
     }
 
-    /**
-     * Check if the class section is active.
-     */
     public function isActive()
     {
         return $this->active_status == 1;
     }
 
-    /**
-     * Scope a query to only include active class sections.
-     */
     public function scopeActive($query)
     {
         return $query->where('active_status', 1);
