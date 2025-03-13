@@ -47,6 +47,7 @@ class PermissionTableSeeder extends Seeder
                 [
                     'name'      => $roleName,
                     'school_id' => 1,
+                    'branch_id' => 1
                 ],
                 [
                     'type'       => 'system',
@@ -76,8 +77,10 @@ class PermissionTableSeeder extends Seeder
             'guard_name' => 'web',
         ], [
             'group_name' => $group,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
+            'school_id'     => 1,
+            'branch_id'     => 1,
+            'created_at'    => Carbon::now(),
+            'updated_at'    => Carbon::now(),
         ]);
     }
 

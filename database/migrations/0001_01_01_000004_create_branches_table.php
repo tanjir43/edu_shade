@@ -18,8 +18,11 @@ return new class extends Migration
             $table->string('email', 191)->nullable()->unique();
             $table->string('phone', 20)->nullable();
             $table->text('address')->nullable();
-            $table->unsignedBigInteger('school_id')->index();
+
             $table->tinyInteger('active_status')->default(1)->comment('1 = Active, 0 = Inactive');
+            $table->unsignedBigInteger('school_id')->index();
+
+            # User References
             $table->unsignedBigInteger('created_by')->nullable()->index();
             $table->unsignedBigInteger('updated_by')->nullable()->index();
             $table->unsignedBigInteger('deleted_by')->nullable()->index();

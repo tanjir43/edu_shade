@@ -15,15 +15,15 @@ return new class extends Migration
             $table->id();
 
             # Foreign Keys
-            $table->foreignId('teacher_id')->constrained()->cascadeOnDelete()->index();
-            $table->foreignId('scl_class_id')->constrained()->cascadeOnDelete()->index();
-            $table->foreignId('section_id')->constrained()->cascadeOnDelete()->index();
-            $table->foreignId('subject_id')->nullable()->constrained()->cascadeOnDelete()->index();
-            $table->foreignId('school_id')->constrained()->cascadeOnDelete()->index();
-            $table->foreignId('branch_id')->nullable()->constrained()->cascadeOnDelete()->index();
-            $table->foreignId('academic_year_id')->constrained()->cascadeOnDelete()->index();
-            $table->foreignId('version_id')->nullable()->constrained()->cascadeOnDelete()->index();
-            $table->foreignId('shift_id')->nullable()->constrained()->cascadeOnDelete()->index();
+            $table->unsignedBigInteger('teacher_id')->index();
+            $table->unsignedBigInteger('scl_class_id')->index();
+            $table->unsignedBigInteger('section_id')->index();
+            $table->unsignedBigInteger('subject_id')->nullable()->index();
+            $table->unsignedBigInteger('school_id')->default(1)->index();
+            $table->unsignedBigInteger('branch_id')->nullable()->index();
+            $table->unsignedBigInteger('academic_year_id')->index();
+            $table->unsignedBigInteger('version_id')->nullable()->index();
+            $table->unsignedBigInteger('shift_id')->nullable()->index();
 
             # Is class teacher
             $table->tinyInteger('is_class_teacher')->default(0)->comment('1 = Yes, 0 = No');

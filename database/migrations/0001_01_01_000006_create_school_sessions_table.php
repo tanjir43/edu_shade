@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('end_date')->index();
             $table->tinyInteger('active_status')->default(1)->comment('1 = Active, 0 = Inactive');
 
-            # Foreign Keys with proper constraints
+            # Foreign Keys
             $table->foreignId('school_id')->constrained()->cascadeOnDelete();
             $table->foreignId('branch_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('academic_year_id')->constrained()->comment('Links session to specific academic year');
@@ -32,7 +32,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            # Additional indexes for performance
+            # Indexes
             $table->index(['start_date', 'end_date']);
             $table->index(['school_id', 'academic_year_id']);
         });

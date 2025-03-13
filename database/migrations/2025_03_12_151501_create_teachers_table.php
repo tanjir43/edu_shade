@@ -24,8 +24,8 @@ return new class extends Migration
             $table->string('photo', 191)->nullable();
 
             # Foreign Keys
-            $table->foreignId('school_id')->constrained()->cascadeOnDelete()->index();
-            $table->foreignId('branch_id')->nullable()->constrained()->cascadeOnDelete()->index();
+            $table->unsignedBigInteger('school_id')->default(1)->index();
+            $table->unsignedBigInteger('branch_id')->nullable()->index();
 
             # Status
             $table->tinyInteger('active_status')->default(1)->comment('1 = Active, 0 = Inactive')->index();

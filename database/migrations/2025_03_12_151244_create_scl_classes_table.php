@@ -18,10 +18,10 @@ return new class extends Migration
             $table->unsignedTinyInteger('class_level')->nullable()->comment('Numeric value for sorting');
 
             # Foreign Keys
-            $table->foreignId('school_id')->constrained()->cascadeOnDelete()->index();
-            $table->foreignId('branch_id')->nullable()->constrained()->cascadeOnDelete()->index();
-            $table->foreignId('version_id')->nullable()->constrained()->cascadeOnDelete()->index();
-            $table->foreignId('shift_id')->nullable()->constrained()->cascadeOnDelete()->index();
+            $table->unsignedBigInteger('school_id')->default(1)->index();
+            $table->unsignedBigInteger('branch_id')->nullable()->index();
+            $table->unsignedBigInteger('version_id')->nullable()->index();
+            $table->unsignedBigInteger('shift_id')->nullable()->index();
 
             # Status
             $table->tinyInteger('active_status')->default(1)->comment('1 = Active, 0 = Inactive')->index();

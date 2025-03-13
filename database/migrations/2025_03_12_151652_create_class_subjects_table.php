@@ -15,15 +15,15 @@ return new class extends Migration
             $table->id();
 
             # Foreign Keys
-            $table->foreignId('scl_class_id')->constrained()->cascadeOnDelete()->index();
-            $table->foreignId('subject_id')->constrained()->cascadeOnDelete()->index();
-            $table->foreignId('school_id')->constrained()->cascadeOnDelete()->index();
-            $table->foreignId('branch_id')->nullable()->constrained()->cascadeOnDelete()->index();
-            $table->foreignId('academic_year_id')->constrained()->cascadeOnDelete()->index();
-            $table->foreignId('version_id')->nullable()->constrained()->cascadeOnDelete()->index();
+            $table->unsignedBigInteger('scl_class_id')->index();
+            $table->unsignedBigInteger('subject_id')->index();
+            $table->unsignedBigInteger('school_id')->default(1)->index();
+            $table->unsignedBigInteger('branch_id')->nullable()->index();
+            $table->unsignedBigInteger('academic_year_id')->index();
+            $table->unsignedBigInteger('version_id')->nullable()->index();
 
             # Optional teacher assignment
-            $table->foreignId('teacher_id')->nullable()->constrained()->cascadeOnDelete()->index();
+            $table->unsignedBigInteger('teacher_id')->nullable()->index();
 
             # Subject details for this class
             $table->decimal('theory_marks', 8, 2)->nullable();

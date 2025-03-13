@@ -18,8 +18,8 @@ return new class extends Migration
             $table->integer('capacity')->nullable()->comment('Maximum number of students');
 
             # Foreign Keys
-            $table->foreignId('school_id')->constrained()->cascadeOnDelete()->index();
-            $table->foreignId('branch_id')->nullable()->constrained()->cascadeOnDelete()->index();
+            $table->unsignedBigInteger('school_id')->default(1)->index();
+            $table->unsignedBigInteger('branch_id')->nullable()->index();
 
             # Status
             $table->tinyInteger('active_status')->default(1)->comment('1 = Active, 0 = Inactive')->index();
