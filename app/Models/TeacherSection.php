@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TeacherSection extends Model
@@ -27,84 +28,70 @@ class TeacherSection extends Model
         'deleted_by',
     ];
 
-    /**
-     * Get the teacher that owns the teacher section
-     */
-    public function teacher()
+    public function teacher() : BelongsTo
     {
         return $this->belongsTo(Teacher::class);
     }
 
-    /**
-     * Get the class that owns the teacher section
-     */
-    public function class()
+    public function class() : BelongsTo
     {
         return $this->belongsTo(SclClass::class, 'scl_class_id');
     }
 
-    /**
-     * Get the section that owns the teacher section
-     */
-    public function section()
+    public function section() : BelongsTo
     {
         return $this->belongsTo(Section::class);
     }
 
-    /**
-     * Get the subject that owns the teacher section (if applicable)
-     */
-    public function subject()
+    public function subject() : BelongsTo
     {
         return $this->belongsTo(Subject::class);
     }
 
-    /**
-     * Get the school that owns the teacher section
-     */
-    public function school()
+    public function school() : BelongsTo
     {
         return $this->belongsTo(School::class);
     }
 
-    /**
-     * Get the branch that owns the teacher section (if applicable)
-     */
-    public function branch()
+    public function branch() : BelongsTo
     {
         return $this->belongsTo(Branch::class);
     }
 
-    /**
-     * Get the academic year that owns the teacher section
-     */
-    public function academicYear()
+    public function academicYear() : BelongsTo
     {
         return $this->belongsTo(AcademicYear::class);
     }
 
-    /**
-     * Get the version that owns the teacher section (if applicable)
-     */
-    public function version()
+    public function version() : BelongsTo
     {
         return $this->belongsTo(Version::class);
     }
 
-    /**
-     * Get the shift that owns the teacher section (if applicable)
-     */
-    public function shift()
+    public function shift() : BelongsTo
     {
         return $this->belongsTo(Shift::class);
     }
 
-    /**
-     * Get the class section for this teacher section
-     */
-    public function classSection()
+    # Get the class section for this teacher section
+    public function classSection() : BelongsTo
     {
         return $this->belongsTo(SclClassSection::class, 'section_id', 'section_id')
             ->where('scl_class_id', $this->scl_class_id);
+    }
+
+    public function createdBy() : BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
+    }
+
+    public function updatedBy() : BelongsTo
+    {
+        return $this->belongsTo(User::class, 'updated_by', 'id');
+    }
+
+    public function deletedBy() : BelongsTo
+    {
+        return $this->belongsTo(User::class, 'deleted_by', 'id');
     }
 }
