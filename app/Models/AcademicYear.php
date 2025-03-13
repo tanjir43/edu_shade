@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AcademicYear extends Model
 {
@@ -26,60 +28,57 @@ class AcademicYear extends Model
 
     protected $casts = [
         'starting_date' => 'date',
-        'ending_date' => 'date',
+        'ending_date'   => 'date',
     ];
 
-    /**
-     * Get the school that owns the academic year
-     */
-    public function school()
+    public function school() : BelongsTo
     {
         return $this->belongsTo(School::class);
     }
 
-    /**
-     * Get the branch that owns the academic year (if applicable)
-     */
-    public function branch()
+    public function branch() : BelongsTo
     {
         return $this->belongsTo(Branch::class);
     }
 
-    /**
-     * Get all class sections for this academic year
-     */
-    public function classSections()
+    public function classSections() : HasMany
     {
         return $this->hasMany(SclClassSection::class);
     }
 
-    /**
-     * Get all students for this academic year
-     */
-    public function students()
+    public function students() : HasMany
     {
         return $this->hasMany(Student::class);
     }
 
-    /**
-     * Get all class subjects for this academic year
-     */
-    public function classSubjects()
+    public function classSubjects() : HasMany
     {
         return $this->hasMany(ClassSubject::class);
     }
 
-    /**
-     * Get all teacher sections for this academic year
-     */
-    public function teacherSections()
+    public function teacherSections() : HasMany
     {
         return $this->hasMany(TeacherSection::class);
     }
 
-    public function schoolSessions()
+    public function schoolSessions() : HasMany
     {
         return $this->hasMany(SchoolSession::class);
+    }
+
+    public function createdBy() : BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
+    }
+
+    public function updatedBy() : BelongsTo
+    {
+        return $this->belongsTo(User::class, 'updated_by', 'id');
+    }
+
+    public function deletedBy() : BelongsTo
+    {
+        return $this->belongsTo(User::class, 'deleted_by', 'id');
     }
 
     public function isActive()
@@ -87,17 +86,11 @@ class AcademicYear extends Model
         return $this->active_status == 1;
     }
 
-    /**
-     * Scope a query to only include active academic years.
-     */
     public function scopeActive($query)
     {
         return $query->where('active_status', 1);
     }
 
-    /**
-     * Get the current academic year for a school.
-     */
     public static function getCurrentForSchool($schoolId, $branchId = null)
     {
         $query = self::where('school_id', $schoolId)

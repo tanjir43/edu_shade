@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Version extends Model
 {
@@ -22,59 +24,53 @@ class Version extends Model
         'deleted_by',
     ];
 
-    /**
-     * Get the school that owns the version
-     */
-    public function school()
+    public function school() : BelongsTo
     {
         return $this->belongsTo(School::class);
     }
 
-    /**
-     * Get the branch that owns the version (if applicable)
-     */
-    public function branch()
+    public function branch() : BelongsTo
     {
         return $this->belongsTo(Branch::class);
     }
 
-    /**
-     * Get all shifts for this version
-     */
-    public function shifts()
+    public function shifts() : HasMany
     {
         return $this->hasMany(Shift::class);
     }
 
-    /**
-     * Get all classes for this version
-     */
-    public function classes()
+    public function classes() : HasMany
     {
         return $this->hasMany(SclClass::class, 'version_id');
     }
 
-    /**
-     * Get all students for this version
-     */
-    public function students()
+    public function students() : HasMany
     {
         return $this->hasMany(Student::class);
     }
 
-    /**
-     * Get all class subjects for this version
-     */
-    public function classSubjects()
+    public function classSubjects() : HasMany
     {
         return $this->hasMany(ClassSubject::class);
     }
 
-    /**
-     * Get all teacher sections for this version
-     */
-    public function teacherSections()
+    public function teacherSections() : HasMany
     {
         return $this->hasMany(TeacherSection::class);
+    }
+
+    public function createdBy() : BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
+    }
+
+    public function updatedBy() : BelongsTo
+    {
+        return $this->belongsTo(User::class, 'updated_by', 'id');
+    }
+
+    public function deletedBy() : BelongsTo
+    {
+        return $this->belongsTo(User::class, 'deleted_by', 'id');
     }
 }

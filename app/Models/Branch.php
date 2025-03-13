@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Branch extends Model
 {
@@ -27,113 +29,77 @@ class Branch extends Model
     ];
 
 
-        /**
-     * Get the school that owns the branch
-     */
-    public function school()
+    public function school() : BelongsTo
     {
         return $this->belongsTo(School::class);
     }
 
-    /**
-     * Get all academic years of the branch
-     */
-    public function academicYears()
+    public function academicYears() : HasMany
     {
         return $this->hasMany(AcademicYear::class);
     }
 
-    /**
-     * Get all versions of the branch
-     */
-    public function versions()
+    public function versions() : HasMany
     {
         return $this->hasMany(Version::class);
     }
 
-    /**
-     * Get all shifts of the branch
-     */
-    public function shifts()
+    public function shifts() : HasMany
     {
         return $this->hasMany(Shift::class);
     }
 
-    /**
-     * Get all classes of the branch
-     */
-    public function classes()
+    public function classes() : HasMany
     {
         return $this->hasMany(SclClass::class, 'branch_id');
     }
 
-    /**
-     * Get all sections of the branch
-     */
-    public function sections()
+    public function sections() : HasMany
     {
         return $this->hasMany(Section::class);
     }
 
-    /**
-     * Get all teachers of the branch
-     */
-    public function teachers()
+    public function teachers() : HasMany
     {
         return $this->hasMany(Teacher::class);
     }
 
-    /**
-     * Get all students of the branch
-     */
-    public function students()
+    public function students() : HasMany
     {
         return $this->hasMany(Student::class);
     }
 
-    /**
-     * Get all subjects of the branch
-     */
-    public function subjects()
+    public function subjects() : HasMany
     {
         return $this->hasMany(Subject::class);
     }
 
-    /**
-     * Get all class sections of the branch
-     */
-    public function classSections()
+    public function classSections() : HasMany
     {
         return $this->hasMany(SclClassSection::class, 'branch_id');
     }
 
-    /**
-     * Get all class subjects of the branch
-     */
-    public function classSubjects()
+    public function classSubjects() : HasMany
     {
         return $this->hasMany(ClassSubject::class);
     }
 
-    /**
-     * Get all teacher sections of the branch
-     */
-    public function teacherSections()
+    public function teacherSections() : HasMany
     {
         return $this->hasMany(TeacherSection::class);
     }
 
-    public function createdBy()
+    public function createdBy() : BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
-    public function updatedBy()
+    public function updatedBy() : BelongsTo
     {
         return $this->belongsTo(User::class, 'updated_by', 'id');
     }
 
-    public function deletedBy()
+    public function deletedBy() : BelongsTo
     {
         return $this->belongsTo(User::class, 'deleted_by', 'id');
     }
