@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class School extends Model
@@ -24,98 +25,62 @@ class School extends Model
         'deleted_by',
     ];
 
-       /**
-     * Get all branches of the school
-     */
-    public function branches()
+    public function branches() : HasMany
     {
         return $this->hasMany(Branch::class);
     }
 
-    /**
-     * Get all academic years of the school
-     */
-    public function academicYears()
+    public function academicYears() : HasMany
     {
         return $this->hasMany(AcademicYear::class);
     }
 
-    /**
-     * Get all versions of the school
-     */
-    public function versions()
+    public function versions() : HasMany
     {
         return $this->hasMany(Version::class);
     }
 
-    /**
-     * Get all shifts of the school
-     */
-    public function shifts()
+    public function shifts() : HasMany
     {
         return $this->hasMany(Shift::class);
     }
 
-    /**
-     * Get all classes of the school
-     */
-    public function classes()
+    public function classes() : HasMany
     {
         return $this->hasMany(SclClass::class, 'school_id');
     }
 
-    /**
-     * Get all sections of the school
-     */
-    public function sections()
+    public function sections() : HasMany
     {
         return $this->hasMany(Section::class);
     }
 
-    /**
-     * Get all teachers of the school
-     */
-    public function teachers()
+    public function teachers() : HasMany
     {
         return $this->hasMany(Teacher::class);
     }
 
-    /**
-     * Get all students of the school
-     */
-    public function students()
+    public function students() : HasMany
     {
         return $this->hasMany(Student::class);
     }
 
-    /**
-     * Get all subjects of the school
-     */
-    public function subjects()
+    public function subjects() : HasMany
     {
         return $this->hasMany(Subject::class);
     }
 
-    /**
-     * Get all class sections of the school
-     */
-    public function classSections()
+    public function classSections() : HasMany
     {
         return $this->hasMany(SclClassSection::class, 'school_id');
     }
 
-    /**
-     * Get all class subjects of the school
-     */
-    public function classSubjects()
+    public function classSubjects() : HasMany
     {
         return $this->hasMany(ClassSubject::class);
     }
 
-    /**
-     * Get all teacher sections of the school
-     */
-    public function teacherSections()
+    public function teacherSections() : HasMany
     {
         return $this->hasMany(TeacherSection::class);
     }
