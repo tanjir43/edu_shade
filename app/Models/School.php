@@ -134,4 +134,9 @@ class School extends Model
     {
         return $this->belongsTo(User::class, 'deleted_by', 'id');
     }
+
+    public function schoolSessions()
+    {
+        return $this->hasMany(SchoolSession::class);
+    }
 }

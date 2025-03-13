@@ -76,4 +76,37 @@ class AcademicYear extends Model
     {
         return $this->hasMany(TeacherSection::class);
     }
+
+    public function schoolSessions()
+    {
+        return $this->hasMany(SchoolSession::class);
+    }
+
+    public function isActive()
+    {
+        return $this->active_status == 1;
+    }
+
+    /**
+     * Scope a query to only include active academic years.
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('active_status', 1);
+    }
+
+    /**
+     * Get the current academic year for a school.
+     */
+    public static function getCurrentForSchool($schoolId, $branchId = null)
+    {
+        $query = self::where('school_id', $schoolId)
+            ->where('active_status', 1);
+
+        if ($branchId) {
+            $query->where('branch_id', $branchId);
+        }
+
+        return $query->latest()->first();
+    }
 }

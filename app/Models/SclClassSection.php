@@ -80,4 +80,20 @@ class SclClassSection extends Model
             ->where('scl_class_id', $this->scl_class_id)
             ->where('academic_year_id', $this->academic_year_id);
     }
+
+    /**
+     * Check if the class section is active.
+     */
+    public function isActive()
+    {
+        return $this->active_status == 1;
+    }
+
+    /**
+     * Scope a query to only include active class sections.
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('active_status', 1);
+    }
 }
