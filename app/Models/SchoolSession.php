@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class SchoolSession extends Model
 {
@@ -20,66 +21,61 @@ class SchoolSession extends Model
         'branch_id',
         'academic_year_id',
         'created_by',
-        'updated_by'
+        'updated_by',
+        'deleted_by',
     ];
 
     protected $casts = [
-        'start_date' => 'date',
-        'end_date' => 'date',
+        'start_date'    => 'date',
+        'end_date'      => 'date',
     ];
 
-    /**
-     * Get the school that owns the session.
-     */
-    public function school()
+    public function school() : BelongsTo
     {
         return $this->belongsTo(School::class);
     }
 
-    /**
-     * Get the branch that owns the session.
-     */
-    public function branch()
+    public function branch() : BelongsTo
     {
         return $this->belongsTo(Branch::class);
     }
 
-    /**
-     * Get the academic year that owns the session.
-     */
-    public function academicYear()
+    public function academicYear() : BelongsTo
     {
         return $this->belongsTo(AcademicYear::class);
     }
 
-    /**
-     * Check if the session is active.
-     */
+    public function createdBy() : BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
+    }
+
+    public function updatedBy() : BelongsTo
+    {
+        return $this->belongsTo(User::class, 'updated_by', 'id');
+    }
+
+    public function deletedBy() : BelongsTo
+    {
+        return $this->belongsTo(User::class, 'deleted_by', 'id');
+    }
+
     public function isActive()
     {
         return $this->active_status == 1;
     }
 
-    /**
-     * Scope a query to only include active sessions.
-     */
     public function scopeActive($query)
     {
         return $query->where('active_status', 1);
     }
 
-    /**
-     * Check if the session is current.
-     */
     public function isCurrent()
     {
         $today = now()->format('Y-m-d');
         return $this->start_date <= $today && $this->end_date >= $today;
     }
 
-    /**
-     * Scope a query to only include current sessions.
-     */
     public function scopeCurrent($query)
     {
         $today = now()->format('Y-m-d');
@@ -87,9 +83,6 @@ class SchoolSession extends Model
                      ->where('end_date', '>=', $today);
     }
 
-    /**
-     * Get the current session for a school.
-     */
     public static function getCurrentForSchool($schoolId, $branchId = null)
     {
         $query = self::where('school_id', $schoolId)

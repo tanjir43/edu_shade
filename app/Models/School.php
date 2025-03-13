@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class School extends Model
 {
@@ -85,22 +86,22 @@ class School extends Model
         return $this->hasMany(TeacherSection::class);
     }
 
-    public function createdBy()
+    public function createdBy() : BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
-    public function updatedBy()
+    public function updatedBy() : BelongsTo
     {
         return $this->belongsTo(User::class, 'updated_by', 'id');
     }
 
-    public function deletedBy()
+    public function deletedBy() : BelongsTo
     {
         return $this->belongsTo(User::class, 'deleted_by', 'id');
     }
 
-    public function schoolSessions()
+    public function schoolSessions() : HasMany
     {
         return $this->hasMany(SchoolSession::class);
     }
