@@ -6,7 +6,7 @@ use App\Models\SclClass;
 use App\Filters\SclClassFilter;
 use App\Repositories\Interfaces\SclClassRepositoryInterface;
 
-class LabelRepository implements SclClassRepositoryInterface
+class SclClassRepository implements SclClassRepositoryInterface
 {
     protected $model;
 
@@ -32,18 +32,18 @@ class LabelRepository implements SclClassRepositoryInterface
 
     public function update($id, array $data)
     {
-        $label = $this->model->findOrFail($id);
-        $label->update($data);
-        return $label;
+        $sclClass = $this->model->findOrFail($id);
+        $sclClass->update($data);
+        return $sclClass;
     }
 
     public function delete($id): bool
     {
         $ids = explode(',', $id);
 
-        $labels = $this->model->whereIn('id', $ids)->get();
+        $sclClasses = $this->model->whereIn('id', $ids)->get();
 
-        if ($labels->isEmpty()) {
+        if ($sclClasses->isEmpty()) {
             return false;
         }
 
@@ -63,15 +63,15 @@ class LabelRepository implements SclClassRepositoryInterface
 
     public function restore($id)
     {
-        $label = $this->model->withTrashed()->findOrFail($id);
-        $label->restore();
-        return $label;
+        $sclClass = $this->model->withTrashed()->findOrFail($id);
+        $sclClass->restore();
+        return $sclClass;
     }
 
     public function forceDelete($id)
     {
-        $label = $this->model->withTrashed()->findOrFail($id);
-        $label->forceDelete();
-        return $label;
+        $sclClass = $this->model->withTrashed()->findOrFail($id);
+        $sclClass->forceDelete();
+        return $sclClass;
     }
 }
