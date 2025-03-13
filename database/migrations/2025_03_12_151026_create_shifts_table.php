@@ -13,7 +13,30 @@ return new class extends Migration
     {
         Schema::create('shifts', function (Blueprint $table) {
             $table->id();
+            $table->string('name', 200)->index();
+            $table->string('shift_code', 50)->nullable();
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
+
+            # Foreign Keys
+            $table->foreignId('school_id')->constrained()->cascadeOnDelete()->index();
+            $table->foreignId('branch_id')->nullable()->constrained()->cascadeOnDelete()->index();
+            $table->foreignId('version_id')->nullable()->constrained()->cascadeOnDelete()->index();
+
+            # Status
+            $table->tinyInteger('active_status')->default(1)->comment('1 = Active, 0 = Inactive')->index();
+
+            # User References
+            $table->unsignedBigInteger('created_by')->nullable()->index();
+            $table->unsignedBigInteger('updated_by')->nullable()->index();
+            $table->unsignedBigInteger('deleted_by')->nullable()->index();
+
+            # Indexing
+            $table->index(['school_id', 'branch_id', 'version_id']);
+
+            # Timestamps & Soft Deletes
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
