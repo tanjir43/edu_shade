@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('group_name')->nullable();
             $table->string('guard_name'); // For MyISAM use string('guard_name', 25);
             $table->bigInteger('branch_id')->nullable();
-            $table->bigInteger('school_id')->nullable();
+            $table->bigInteger('school_id');
             $table->timestamps();
 
             $table->unique(['name', 'guard_name', 'branch_id', 'school_id']);

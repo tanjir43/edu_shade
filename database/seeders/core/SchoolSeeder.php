@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\default;
+namespace Database\Seeders\core;
 
 use App\Models\School;
 use Illuminate\Database\Seeder;
@@ -13,20 +13,19 @@ class SchoolSeeder extends Seeder
 
     public function run(): void
     {
-        $schools = [
-
+        $school = [
             'name'              => 'Edu Shade',
             'email'             => 'admin@edushade.com',
             'domain'            => 'edushade',
+            'school_code'       => 'EDU-SHADE',
             'address'           => 'Dhaka, Bangladesh',
             'phone'             => '01700000000',
-            'school_code'       => 'EDU-SHADE',
             'is_email_verified' => 1,
             'active_status'     => 1,
             'is_enabled'        => 'yes',
             'created_by'        => 1,
         ];
 
-        School::create($schools);
+        School::create($school);
     }
 }

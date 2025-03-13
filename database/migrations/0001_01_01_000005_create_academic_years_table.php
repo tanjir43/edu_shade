@@ -43,7 +43,7 @@ return new class extends Migration
             'year'          => $year,
             'title'         => 'Jan-Dec',
             'starting_date' => "$year-01-01",
-            'ending_date'   => "$year-12-30",
+            'ending_date'   => "$year-12-31",
             'created_at'    => now(),
             'updated_at'    => now(),
         ]);
