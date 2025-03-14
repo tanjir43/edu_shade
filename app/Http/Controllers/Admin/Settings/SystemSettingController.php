@@ -32,7 +32,7 @@ class SystemSettingController extends Controller
 
         if ($request->has('delete_key')) {
             $settingService->delete($request->delete_key);
-            return redirect()->back()->with('success', 'Password updated successfully.')->with('alert_type', 'toastr');
+            return  handleResponse('System Settings updated successfully.');
         }
 
         $settings = $settingService->set($request->all());
