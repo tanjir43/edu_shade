@@ -12,16 +12,6 @@
     </section>
 
     <div class="content px-3">
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
         <div class="card">
             <form action="{{ route('admin.sclClasses.store') }}" method="POST">
                 @csrf
