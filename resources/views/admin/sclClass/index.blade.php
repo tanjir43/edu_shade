@@ -69,4 +69,5 @@
 
 @push('scripts')
     <script src="{{asset('custom/js/core/filter/scl_class_filter.js')}}"></script>
+    <script src="{{asset('js/delete-confirmation.js')}}"></script>
 @endpush
