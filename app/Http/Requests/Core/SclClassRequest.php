@@ -2,8 +2,9 @@
 
 namespace App\Http\Requests\Core;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class SclClassRequest extends FormRequest
 {
@@ -34,5 +35,12 @@ class SclClassRequest extends FormRequest
             'active_status.required'    => 'The active status is required.',
             'active_status.in'          => 'The active status must be either Active (1) or Inactive (0).',
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            handleResponse(null, 'Validation error occurred.', $validator->errors(), $this->all())
+        );
     }
 }
