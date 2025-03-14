@@ -3,10 +3,6 @@
 namespace App\Http\Controllers\Admin\Core;
 
 use Exception;
-use App\Models\Shift;
-use App\Models\Branch;
-use App\Models\School;
-use App\Models\Version;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -38,16 +34,6 @@ class SclClassController extends Controller
         return $dataTable->render('admin.sclClass.index', compact('filters'));
     }
 
-    public function create()
-    {
-        $schools    = School::where('active_status', 1)->pluck('name', 'id');
-        $branches   = Branch::where('active_status', 1)->pluck('name', 'id');
-        $versions   = Version::where('active_status', 1)->pluck('name', 'id');
-        $shifts     = Shift::where('active_status', 1)->pluck('name', 'id');
-
-        return view('admin.sclClass.create', compact('schools', 'branches', 'versions', 'shifts'));
-    }
-
     public function store(SclClassRequest $request)
     {
         try {
@@ -69,22 +55,11 @@ class SclClassController extends Controller
         }
     }
 
-    public function show($id)
-    {
-        $sclClass = $this->sclClassRepository->find($id);
-
-        return view('admin.sclClass.show', compact('sclClass'));
-    }
-
-    public function edit($id)
+    public function edit($id, SclClassDataTable $dataTable, Request $request)
     {
         $sclClass   = $this->sclClassRepository->find($id);
-        $schools    = School::where('active_status', 1)->pluck('name', 'id');
-        $branches   = Branch::where('active_status', 1)->pluck('name', 'id');
-        $versions   = Version::where('active_status', 1)->pluck('name', 'id');
-        $shifts     = Shift::where('active_status', 1)->pluck('name', 'id');
 
-        return view('admin.sclClass.edit', compact('sclClass', 'schools', 'branches', 'versions', 'shifts'));
+       return $dataTable->render('admin.sclClass.index', compact('sclClass'));
     }
 
     public function update(SclClassRequest $request, $id)
@@ -98,14 +73,12 @@ class SclClassController extends Controller
             $this->sclClassRepository->update($id, $data);
 
             DB::commit();
-
             return handleResponse('Class updated successfully.');
 
         } catch (Exception $e) {
             DB::rollBack();
 
             return handleResponse('Error occurred while deleting class: ' . $e->getMessage());
-
         }
     }
 

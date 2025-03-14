@@ -20,22 +20,6 @@
                             <td>{{ $sclClass->class_code ?? 'N/A' }}</td>
                         </tr>
                         <tr>
-                            <th scope="row">School:</th>
-                            <td>{{ $sclClass->school ? $sclClass->school->name : 'N/A' }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Branch:</th>
-                            <td>{{ $sclClass->branch ? $sclClass->branch->name : 'N/A' }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Version:</th>
-                            <td>{{ $sclClass->version ? $sclClass->version->name : 'N/A' }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Shift:</th>
-                            <td>{{ $sclClass->shift ? $sclClass->shift->name : 'N/A' }}</td>
-                        </tr>
-                        <tr>
                             <th scope="row">Status:</th>
                             <td>
                                 <span class="badge {{ $sclClass->active_status ? 'badge-success' : 'badge-danger' }}">
