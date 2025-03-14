@@ -6,17 +6,19 @@ use App\Models\SclClass;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\Html\Button;
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
 class SclClassDataTable extends DataTable
 {
+    /**
+     * Build DataTable class.
+     */
     public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
 
         return $dataTable
-            ->addColumn('school', function ($row) {
-                return $row->school ? $row->school->name : 'N/A';
-            })
             ->addColumn('branch', function ($row) {
                 return $row->branch ? $row->branch->name : 'N/A';
             })
@@ -26,67 +28,122 @@ class SclClassDataTable extends DataTable
             ->addColumn('shift', function ($row) {
                 return $row->shift ? $row->shift->name : 'N/A';
             })
-            ->editColumn('active_status', function ($row) {
-                return $row->active_status ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Inactive</span>';
+            ->addColumn('action', function($row) {
+                return view('admin.sclClass.datatables_actions', ['id' => $row->id])->render();
             })
-            ->addColumn('action', 'admin.sclClass.datatables_actions')
+            ->filterColumn('name', function($query, $keyword) {
+                $query->where('name', 'like', "%{$keyword}%");
+            })
+            ->filterColumn('active_status', function($query, $keyword) {
+                $query->where('active_status', $keyword);
+            })
             ->rawColumns(['active_status', 'action']);
     }
 
-    public function query(SclClass $model)
+    /**
+     * Get query source of dataTable.
+     */
+    public function query(SclClass $model): QueryBuilder
     {
-        return $model->newQuery()
-            ->with(['school', 'branch', 'version', 'shift'])
+        $query = $model->newQuery()
+            ->with(['branch', 'version', 'shift'])
             ->select('scl_classes.*');
+
+        // Apply filters from request if they exist
+        if (request()->has('name') && request()->name != '') {
+            $query->where('name', 'like', '%' . request()->name . '%');
+        }
+
+        if (request()->has('active_status') && request()->active_status != '') {
+            $query->where('active_status', request()->active_status);
+        }
+
+        return $query;
     }
 
     /**
      * Optional method if you want to use html builder.
-     *
-     * @return \Yajra\DataTables\Html\Builder
      */
     public function html()
     {
         return $this->builder()
+            ->setTableId('scl-classes-table')
             ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->addAction(['width' => '120px', 'printable' => false])
+            ->minifiedAjax(route('admin.sclClasses.index'), null, [
+                'name' => '$("#filter-name").val()',
+                'active_status' => '$("#filter-status").val()',
+            ])
+            ->responsive(true)
+            ->orderBy(1, 'asc')
+            ->addAction(['width' => '120px', 'printable' => false, 'title' => 'Action', 'class' => 'text-center'])
             ->parameters([
                 'dom'       => 'Bfrtip',
-                'stateSave' => false,
-                'order'     => [[1, 'ASC']],
+                'stateSave' => true,
                 'buttons'   => [
-                    ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner'],
-                    ['extend' => 'print', 'className' => 'btn btn-default btn-sm no-corner'],
-                    ['extend' => 'reset', 'className' => 'btn btn-default btn-sm no-corner'],
-                    ['extend' => 'reload', 'className' => 'btn btn-default btn-sm no-corner'],
+                    [
+                        'extend' => 'csv',
+                        'className' => 'btn btn-sm btn-secondary csv',
+                        'text' => '<i class="fa fa-file-csv"></i> CSV'
+                    ],
+                    [
+                        'extend' => 'excel',
+                        'className' => 'btn btn-sm btn-secondary excel',
+                        'text' => '<i class="fa fa-file-excel"></i> Excel'
+                    ],
+                    [
+                        'extend' => 'pdf',
+                        'className' => 'btn btn-sm btn-secondary pdf',
+                        'text' => '<i class="fa fa-file-pdf"></i> PDF'
+                    ],
+                    [
+                        'extend' => 'print',
+                        'className' => 'btn btn-sm btn-secondary print',
+                        'text' => '<i class="fa fa-print"></i> Print'
+                    ],
+                    // [
+                    //     'extend' => 'reset',
+                    //     'className' => 'btn btn-sm btn-secondary',
+                    //     'text' => '<i class="fa fa-undo"></i> Reset'
+                    // ],
+                    // [
+                    //     'extend' => 'reload',
+                    //     'className' => 'btn btn-sm btn-secondary',
+                    //     'text' => '<i class="fa fa-sync-alt"></i> Reload'
+                    // ],
                 ],
-                'language' => [
-                    'url' => url('//cdn.datatables.net/plug-ins/1.10.21/i18n/English.json'),
-                ],
+                'responsive' => true,
+                'processing' => true,
+                'serverSide' => true,
+                'autoWidth' => false,
+                'drawCallback' => "function() {
+                    $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
+                }",
+                'initComplete' => "function() {
+                    $('.dt-buttons .btn').removeClass('btn-secondary');
+                    $('.dt-buttons').addClass('btn-group');
+                }",
             ]);
     }
 
     /**
-     * Get columns.
-     *
-     * @return array
+     * Get the dataTable columns definition.
      */
     protected function getColumns()
     {
         return [
-            'id' => new Column(['title' => 'ID', 'data' => 'id']),
-            'name' => new Column(['title' => __('Name'), 'data' => 'name']),
-            'class_code' => new Column(['title' => __('Class Code'), 'data' => 'class_code']),
-            'class_level' => new Column(['title' => __('Class Level'), 'data' => 'class_level']),
-            'school' => new Column(['title' => __('School'), 'data' => 'school', 'name' => 'school.name']),
-            'branch' => new Column(['title' => __('Branch'), 'data' => 'branch', 'name' => 'branch.name']),
-            'version' => new Column(['title' => __('Version'), 'data' => 'version', 'name' => 'version.name']),
-            'shift' => new Column(['title' => __('Shift'), 'data' => 'shift', 'name' => 'shift.name']),
-            'active_status' => new Column(['title' => __('Status'), 'data' => 'active_status'])
+            Column::make('id')->title('ID')->width(80),
+            Column::make('name')->title('Name'),
+            Column::make('class_code')->title('Class Code'),
+            Column::make('class_level')->title('Class Level'),
+            Column::make('branch')->title('Branch'),
+            Column::make('version')->title('Version'),
+            Column::make('shift')->title('Shift'),
         ];
     }
 
+    /**
+     * Get filename for export.
+     */
     protected function filename(): string
     {
         return 'scl_classes_datatable_' . time();

@@ -27,8 +27,12 @@ class SclClassController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(SclClassDataTable $dataTable)
+    public function index(SclClassDataTable $dataTable, Request $request)
     {
+        if ($request->ajax()) {
+            return $dataTable->render('admin.sclClass.index');
+        }
+
         return $dataTable->render('admin.sclClass.index');
     }
 
@@ -209,16 +213,18 @@ class SclClassController extends Controller
     }
 
     /**
-     * Filter classes based on criteria.
+     * Filter classes based on criteria using the repository.
+     * This method will remain for API use but mainly DataTables will handle filtering
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function filter(Request $request)
     {
-        $filters = $request->all();
-        $sclClasses = $this->sclClassRepository->filter($filters);
+        if ($request->ajax()) {
+            return redirect()->route('admin.sclClasses.index', $request->all());
+        }
 
-        return view('admin.sclClass.filtered', compact('sclClasses', 'filters'));
+        return redirect()->route('admin.sclClasses.index', $request->all());
     }
 }

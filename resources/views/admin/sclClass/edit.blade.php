@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
     <section class="content-header">
@@ -12,23 +12,32 @@
     </section>
 
     <div class="content px-3">
-        @include('adminlte-templates::common.errors')
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         <div class="card">
-            {!! Form::model($sclClass, ['route' => ['admin.sclClasses.update', $sclClass->id], 'method' => 'patch']) !!}
+            <form action="{{ route('admin.sclClasses.update', $sclClass->id) }}" method="POST">
+                @csrf
+                @method('PATCH')
 
-            <div class="card-body">
-                <div class="row">
-                    @include('admin.sclClass.fields')
+                <div class="card-body">
+                    <div class="row">
+                        @include('admin.sclClass.fields')
+                    </div>
                 </div>
-            </div>
 
-            <div class="card-footer">
-                {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('admin.sclClasses.index') }}" class="btn btn-default">Cancel</a>
-            </div>
-
-            {!! Form::close() !!}
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a href="{{ route('admin.sclClasses.index') }}" class="btn btn-default">Cancel</a>
+                </div>
+            </form>
         </div>
     </div>
 @endsection

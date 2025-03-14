@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
     <section class="content-header">
@@ -18,7 +18,6 @@
     </section>
 
     <div class="content px-3">
-        @include('flash::message')
         <div class="clearfix"></div>
 
         <div class="card">
@@ -73,21 +72,21 @@
                                         @endif
                                     </td>
                                     <td>
-                                        {!! Form::open(['route' => ['admin.sclClasses.destroy', $sclClass->id], 'method' => 'delete', 'id' => 'delete-form-'.$sclClass->id]) !!}
-                                        <div class='btn-group'>
-                                            <a href="{{ route('admin.sclClasses.show', $sclClass->id) }}" class='btn btn-default btn-xs'>
-                                                <i class="fa fa-eye"></i>
-                                            </a>
-                                            <a href="{{ route('admin.sclClasses.edit', $sclClass->id) }}" class='btn btn-default btn-xs'>
-                                                <i class="fa fa-edit"></i>
-                                            </a>
-                                            {!! Form::button('<i class="fa fa-trash"></i>', [
-                                                'type' => 'submit',
-                                                'class' => 'btn btn-danger btn-xs',
-                                                'onclick' => "return confirm('Are you sure you want to delete this class?')"
-                                            ]) !!}
-                                        </div>
-                                        {!! Form::close() !!}
+                                        <form action="{{ route('admin.sclClasses.destroy', $sclClass->id) }}" method="POST" id="delete-form-{{ $sclClass->id }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <div class='btn-group'>
+                                                <a href="{{ route('admin.sclClasses.show', $sclClass->id) }}" class='btn btn-default btn-xs'>
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                                <a href="{{ route('admin.sclClasses.edit', $sclClass->id) }}" class='btn btn-default btn-xs'>
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <button type="button" class='btn btn-danger btn-xs' onclick="if(confirm('Are you sure you want to delete this class?')) { document.getElementById('delete-form-{{ $sclClass->id }}').submit(); }">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
