@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\SclClass;
-use App\Filters\SclClassFilter;
 use App\Repositories\Interfaces\SclClassRepositoryInterface;
 
 class SclClassRepository implements SclClassRepositoryInterface
@@ -48,17 +47,6 @@ class SclClassRepository implements SclClassRepositoryInterface
         }
 
         return $this->model->whereIn('id', $ids)->delete();
-    }
-
-    public function filter(array $filters)
-    {
-        $query = $this->model->newQuery();
-
-        $filter = new SclClassFilter();
-        $filter->apply($query, $filters);
-
-        $perPage = $filters['per_page'] ?? 10;
-        return $query->paginate($perPage);
     }
 
     public function restore($id)

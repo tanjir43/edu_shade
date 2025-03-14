@@ -29,7 +29,10 @@ return new class extends Migration
             ['key' => 'is_send_suspicious_by_mail', 'value' => false],
             ['key' => 'is_enable_sentry', 'value' => true],
             ['key' => 'frontend_language', 'value' => 'de'],
-            ['key' => 'alert_type', 'value' => 'toastr'], #sweetalert
+            ['key' => 'alert_type', 'value' => 'toastr'], # sweetalert
+            ['key' => 'is_mantain_branch', 'value' => false], # branch
+            ['key' => 'is_mantain_version', 'value' => false], # version
+            ['key' => 'is_mantain_shift', 'value' => false], # shift
         ];
 
         DB::table('system_settings')->insert($data);

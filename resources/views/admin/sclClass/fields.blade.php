@@ -10,11 +10,6 @@
     <input type="text" name="class_code" id="class_code" value="{{ old('class_code', $sclClass->class_code ?? '') }}" class="form-control" maxlength="50">
 </div>
 
-<!-- Class Level Field -->
-<div class="form-group col-sm-6">
-    <label for="class_level">Class Level:</label>
-    <input type="number" name="class_level" id="class_level" value="{{ old('class_level', $sclClass->class_level ?? '') }}" class="form-control" min="1" max="255">
-</div>
 
 <!-- School Field -->
 <div class="form-group col-sm-6">

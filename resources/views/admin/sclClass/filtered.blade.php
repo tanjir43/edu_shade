@@ -61,7 +61,6 @@
                                     <td>{{ $sclClass->id }}</td>
                                     <td>{{ $sclClass->name }}</td>
                                     <td>{{ $sclClass->class_code ?? 'N/A' }}</td>
-                                    <td>{{ $sclClass->class_level ?? 'N/A' }}</td>
                                     <td>{{ $sclClass->school ? $sclClass->school->name : 'N/A' }}</td>
                                     <td>{{ $sclClass->branch ? $sclClass->branch->name : 'N/A' }}</td>
                                     <td>

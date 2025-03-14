@@ -20,7 +20,6 @@ class ClassSeeder extends Seeder
             [
                 'name'          => 'Class 1',
                 'class_code'    => 'C1',
-                'class_level'   => 1,
                 'school_id'     => $schoolId,
                 'branch_id'     => $branchId,
                 'version_id'    => $versionId,
@@ -33,7 +32,6 @@ class ClassSeeder extends Seeder
             [
                 'name'          => 'Class 2',
                 'class_code'    => 'C2',
-                'class_level'   => 2,
                 'school_id'     => $schoolId,
                 'branch_id'     => $branchId,
                 'version_id'    => $versionId,
@@ -46,7 +44,6 @@ class ClassSeeder extends Seeder
             [
                 'name'          => 'Class 3',
                 'class_code'    => 'C3',
-                'class_level'   => 3,
                 'school_id'     => $schoolId,
                 'branch_id'     => $branchId,
                 'version_id'    => $versionId,

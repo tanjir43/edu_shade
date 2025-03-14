@@ -50,7 +50,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-5 mb-2">
+                        <div class="col-12 col-md-5 mb-2">
                             <button type="button" id="btn-filter" class="btn btn-primary">
                                 <i class="fa fa-filter me-1"></i> Filter
                             </button>
@@ -62,7 +62,7 @@
                 </div>
             </div>
 
-            <div class="table-responsive">
+            <div class="">
                 @include('admin.sclClass.table')
             </div>
         </div>
@@ -71,6 +71,24 @@
 
 @push('styles')
 <style>
+    /* Ensure table columns do not break layout */
+    .table th, .table td {
+        white-space: nowrap; /* Prevents text from wrapping */
+    }
+
+    /* Force table cells to wrap on smaller screens */
+    @media (max-width: 768px) {
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .table th, .table td {
+            white-space: normal;
+            word-wrap: break-word;
+        }
+    }
+
+
     /* Hide the default "Search:" label */
     .dataTables_filter label {
         margin-bottom: 0;

@@ -11,5 +11,4 @@ interface SclClassRepositoryInterface
     public function delete($id);
     public function restore($id);
     public function forceDelete($id);
-    public function filter(array $filters);
 }

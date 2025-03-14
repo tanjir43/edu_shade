@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name', 200)->index();
             $table->string('class_code', 50)->nullable();
-            $table->unsignedTinyInteger('class_level')->nullable()->comment('Numeric value for sorting');
 
             # Foreign Keys
             $table->unsignedBigInteger('school_id')->default(1)->index();

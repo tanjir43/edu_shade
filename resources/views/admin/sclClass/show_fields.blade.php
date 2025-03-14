@@ -16,12 +16,6 @@
     <p>{{ $sclClass->class_code ?? 'N/A' }}</p>
 </div>
 
-<!-- Class Level Field -->
-<div class="col-sm-12">
-    <label>Class Level:</label>
-    <p>{{ $sclClass->class_level ?? 'N/A' }}</p>
-</div>
-
 <!-- School Field -->
 <div class="col-sm-12">
     <label>School:</label>

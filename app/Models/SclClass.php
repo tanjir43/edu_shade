@@ -18,7 +18,6 @@ class SclClass extends Model
     protected $fillable = [
         'name',
         'class_code',
-        'class_level',
         'school_id',
         'branch_id',
         'version_id',
