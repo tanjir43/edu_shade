@@ -33,32 +33,32 @@
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col-md-12">
-                    <form action="{{ route('admin.sclClasses.filter') }}" method="GET" class="filter-form row">
+                    <div class="filter-form row">
                         <div class="col-md-4 mb-2">
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fa fa-school"></i></span>
-                                <input type="text" class="form-control" name="name" placeholder="Class Name" value="{{ request('name') }}">
+                                <input type="text" class="form-control" id="filter-name" placeholder="Class Name" value="{{ $filters['name'] ?? '' }}">
                             </div>
                         </div>
                         <div class="col-md-3 mb-2">
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fa fa-toggle-on"></i></span>
-                                <select class="form-select" name="active_status">
+                                <select class="form-select" id="filter-status">
                                     <option value="">-- Status --</option>
-                                    <option value="1" {{ request('active_status') == '1' ? 'selected' : '' }}>Active</option>
-                                    <option value="0" {{ request('active_status') == '0' ? 'selected' : '' }}>Inactive</option>
+                                    <option value="1" {{ isset($filters['active_status']) && $filters['active_status'] == '1' ? 'selected' : '' }}>Active</option>
+                                    <option value="0" {{ isset($filters['active_status']) && $filters['active_status'] == '0' ? 'selected' : '' }}>Inactive</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-5 mb-2">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="button" id="btn-filter" class="btn btn-primary">
                                 <i class="fa fa-filter me-1"></i> Filter
                             </button>
-                            <a href="{{ route('admin.sclClasses.index') }}" class="btn btn-secondary ms-1">
+                            <button type="button" id="btn-reset" class="btn btn-secondary ms-1">
                                 <i class="fa fa-redo me-1"></i> Reset
-                            </a>
+                            </button>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
 
@@ -69,12 +69,59 @@
     </div>
 @endsection
 
+@push('styles')
+<style>
+    /* Hide the default "Search:" label */
+    .dataTables_filter label {
+        margin-bottom: 0;
+    }
+
+    /* Style the search input */
+    .dataTables_filter .input-group {
+        width: 300px;
+    }
+
+    /* Adjust spacing between buttons and search */
+    .dt-buttons {
+        margin-right: 15px;
+    }
+
+    /* Make sure the search input is the right size */
+    .dataTables_filter .form-control {
+        height: calc(1.5em + 0.5rem + 2px);
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    /* Style the input group text (search icon) */
+    .dataTables_filter .input-group-text {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    /* Make the wrapper flex to align items properly */
+    .dataTables_wrapper .row:first-child {
+        align-items: center;
+    }
+</style>
+@endpush
+
 @push('scripts')
 <script>
     $(document).ready(function() {
-        // Enhance search box with icon
-        $('.dataTables_filter label').html(function(index, html) {
-            return html.replace('Search:', '<i class="fa fa-search me-1"></i> Search:');
+        // Get the DataTable instance
+        var dataTable = $('#scl-classes-table').DataTable();
+
+        // Handle filter button click
+        $('#btn-filter').on('click', function() {
+            dataTable.draw();
+        });
+
+        // Handle reset button click
+        $('#btn-reset').on('click', function() {
+            $('#filter-name').val('');
+            $('#filter-status').val('');
+            dataTable.search('').draw(); // Clear DataTable search too
         });
 
         // Add responsive behavior for smaller screens
@@ -85,6 +132,14 @@
                 $('.table-responsive').removeClass('table-responsive-sm');
             }
         }).resize();
+
+        // Make DataTable search trigger when hitting Enter
+        $('.dataTables_filter input').unbind();
+        $('.dataTables_filter input').bind('keyup', function(e) {
+            if(e.keyCode == 13) {
+                dataTable.search(this.value).draw();
+            }
+        });
     });
 </script>
 @endpush

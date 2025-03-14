@@ -27,15 +27,36 @@ class SclClassController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // public function index(SclClassDataTable $dataTable, Request $request)
+    // {
+    //     // Pass the request parameters to the view
+    //     $filters = [
+    //         'name' => $request->input('name', ''),
+    //         'active_status' => $request->input('active_status', '')
+    //     ];
+
+    //     if ($request->ajax()) {
+    //         return $dataTable->render('admin.sclClass.index');
+    //     }
+
+    //     return $dataTable->render('admin.sclClass.index', compact('filters'));
+    // }
+
     public function index(SclClassDataTable $dataTable, Request $request)
     {
+        // When it's an AJAX request, DataTables automatically sends parameters
         if ($request->ajax()) {
             return $dataTable->render('admin.sclClass.index');
         }
 
-        return $dataTable->render('admin.sclClass.index');
-    }
+        // For the initial page load, pass any existing filters
+        $filters = [
+            'name' => $request->input('name', ''),
+            'active_status' => $request->input('active_status', '')
+        ];
 
+        return $dataTable->render('admin.sclClass.index', compact('filters'));
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -221,9 +242,11 @@ class SclClassController extends Controller
      */
     public function filter(Request $request)
     {
-        if ($request->ajax()) {
-            return redirect()->route('admin.sclClasses.index', $request->all());
-        }
+        // This is mainly kept for backward compatibility
+        $filters = [
+            'name' => $request->input('name', ''),
+            'active_status' => $request->input('active_status', '')
+        ];
 
         return redirect()->route('admin.sclClasses.index', $request->all());
     }
