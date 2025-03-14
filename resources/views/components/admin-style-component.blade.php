@@ -10,3 +10,4 @@
 <link rel="stylesheet" href="{{ asset('custom/css/global.css') }}">
 <link rel="stylesheet" href="{{ asset('custom/css/profile.css') }}">
 <link rel="stylesheet" href="{{ asset('custom/css/datatable.css') }}">
+<link rel="stylesheet" href="{{ asset('custom/css/sidebar.css') }}">

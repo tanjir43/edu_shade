@@ -38,14 +38,14 @@
                             </a>
                         </li>
 
-                        <li class="{{ request()->is('admin/sections') ? 'menuitem-active' : 'pl-30' }}">
+                        {{-- <li class="{{ request()->is('admin/sections') ? 'menuitem-active' : 'pl-30' }}">
                             <a href="" class="side-nav-link {{ request()->is('admin/sections') ? 'active' : '' }}">
                                 @if (request()->is('admin/sections'))
                                     <span class="child-indicator"><i class="fa fa-arrow-right right-sidebar-icon"></i></span>
                                 @endif
                                 <span> Sections </span>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
             </li>
@@ -71,28 +71,5 @@
 
 <style>
 /* Vertical line for active child item */
-.side-nav-second-level li.menuitem-active {
-    position: relative;
-}
 
-.side-nav-second-level li.menuitem-active::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background-color: #ffffff; /* Adjust the color as needed */
-}
-
-/* Right arrow for active child item */
-.child-indicator {
-    margin-left: auto;
-    display: none; /* Hide by default */
-}
-
-.side-nav-second-level li.menuitem-active .child-indicator {
-    display: inline-block; /* Show only for active child item */
-    color: #ffffff; /* Adjust the color as needed */
-}
 </style>
