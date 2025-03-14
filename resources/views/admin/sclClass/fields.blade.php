@@ -1,9 +1,9 @@
 @if (@$sclClass)
-    <form action="{{ route('admin.sclClasses.update', $sclClass->id) }}" method="POST">
+    <form action="{{ route('admin.class.update', $sclClass->id) }}" method="POST">
         @csrf
         @method('PATCH')
 @else
-    <form action="{{ route('admin.sclClasses.store') }}" method="POST">
+    <form action="{{ route('admin.class.store') }}" method="POST">
         @csrf
 @endif
 

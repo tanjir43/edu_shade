@@ -43,10 +43,10 @@
                 </table>
             </div>
             <div class="card-footer text-center">
-                <a href="{{ route('admin.sclClasses.edit', $sclClass->id) }}" class="btn btn-primary">
+                <a href="{{ route('admin.class.edit', $sclClass->id) }}" class="btn btn-primary">
                     <i class="fas fa-edit"></i> Edit
                 </a>
-                <a href="{{ route('admin.sclClasses.index') }}" class="btn btn-secondary">
+                <a href="{{ route('admin.class.index') }}" class="btn btn-secondary">
                     <i class="fas fa-arrow-left"></i> Back
                 </a>
             </div>

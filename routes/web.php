@@ -39,7 +39,7 @@ Route::middleware([
         // SclClass Routes
         Route::get('sclClasses/filter', [App\Http\Controllers\Admin\Core\SclClassController::class, 'filter'])->name('sclClasses.filter');
         Route::post('sclClasses/restore/{id}', [App\Http\Controllers\Admin\Core\SclClassController::class, 'restore'])->name('sclClasses.restore');
-        Route::resource('sclClasses', App\Http\Controllers\Admin\Core\SclClassController::class);
+        Route::resource('class', App\Http\Controllers\Admin\Core\SclClassController::class);
     });
 
     # Logout Route (Fix)

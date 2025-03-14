@@ -21,16 +21,16 @@
             <li class="side-nav-title side-nav-item">Core</li>
             <li class="side-nav-item menuitem-active">
                 <a data-bs-toggle="collapse" href="#academic" aria-expanded="false" aria-controls="academic"
-                    class="side-nav-link {{ request()->is('admin/sclClasses') || request()->is('admin/sclClasses*') ? 'active' : '' }}">
+                    class="side-nav-link {{ request()->is('admin/class') || request()->is('admin/class*') ? 'active' : '' }}">
                     <i class="fa fa-school right-sidebar-icon"></i>
                     <span> Academics </span>
                     <span class="menu-arrow"></span>
                 </a>
-                <div class="collapse {{ request()->is('admin/sclClasses') || request()->is('admin/sclClasses*') ? 'show' : '' }}" id="academic">
+                <div class="collapse {{ request()->is('admin/class') || request()->is('admin/class*') ? 'show' : '' }}" id="academic">
                     <ul class="side-nav-second-level">
-                        <li class="{{ request()->is('admin/sclClasses') ? 'menuitem-active' : 'pl-30' }}">
-                            <a href="{{ route('admin.sclClasses.index') }}" class="side-nav-link {{ request()->is('admin/sclClasses') ? 'active' : '' }}">
-                                @if (request()->is('admin/sclClasses'))
+                        <li class="{{ request()->is('admin/class') ? 'menuitem-active' : 'pl-30' }}">
+                            <a href="{{ route('admin.class.index') }}" class="side-nav-link {{ request()->is('admin/class') ? 'active' : '' }}">
+                                @if (request()->is('admin/class'))
 
                                 <span class="child-indicator"><i class="fa fa-arrow-right right-sidebar-icon"></i></span>
                                 @endif

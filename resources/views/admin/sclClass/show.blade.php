@@ -9,7 +9,7 @@
                 </div>
                 <div class="col-sm-6">
                     <a class="btn btn-default float-right"
-                       href="{{ route('admin.sclClasses.index') }}">
+                       href="{{ route('admin.class.index') }}">
                         Back
                     </a>
                 </div>
@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="card-footer">
-                <a href="{{ route('admin.sclClasses.edit', $sclClass->id) }}" class="btn btn-primary">Edit</a>
+                <a href="{{ route('admin.class.edit', $sclClass->id) }}" class="btn btn-primary">Edit</a>
             </div>
         </div>
     </div>

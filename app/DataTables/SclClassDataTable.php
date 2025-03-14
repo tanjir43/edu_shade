@@ -50,7 +50,7 @@ class SclClassDataTable extends DataTable
         ->setTableId('scl-classes-table')
         ->columns($this->getColumns())
         ->ajax([
-            'url' => route('admin.sclClasses.index'),
+            'url' => route('admin.class.index'),
             'data' => 'function(d) {
                 d.name = $("#filter-name").val();
                 d.active_status = $("#filter-status").val();
