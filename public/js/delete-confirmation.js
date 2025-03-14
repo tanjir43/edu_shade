@@ -1,13 +1,10 @@
-// Add this to a new file public/js/delete-confirmation.js
 $(document).ready(function() {
-    // Generic confirmation for delete actions
-    $('.btn-delete').on('click', function(e) {
+    $('.btn-action-delete').on('click', function(e) {
         e.preventDefault();
 
         var form = $(this).closest('form');
         var record = $(this).data('record') || 'record';
 
-        // Use SweetAlert if available, otherwise use native confirm
         if (typeof Swal !== 'undefined') {
             Swal.fire({
                 title: 'Are you sure?',
@@ -29,7 +26,6 @@ $(document).ready(function() {
         }
     });
 
-    // AJAX delete support
     $('.btn-ajax-delete').on('click', function(e) {
         e.preventDefault();
 
@@ -48,7 +44,6 @@ $(document).ready(function() {
                 success: function(response) {
                     if (response.success) {
                         toastr.success(response.message);
-                        // Reload or remove row
                         button.closest('tr').fadeOut(500, function() {
                             $(this).remove();
                         });

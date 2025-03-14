@@ -1,0 +1,4 @@
+div#scl-classes-table_paginate {
+    display: flex;
+    justify-content: flex-end;
+}

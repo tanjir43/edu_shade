@@ -63,13 +63,3 @@
         <option value="0" {{ (old('active_status', $sclClass->active_status ?? 1) == 0) ? 'selected' : '' }}>Inactive</option>
     </select>
 </div>
-
-@push('scripts')
-<script>
-    $(document).ready(function() {
-        $('.select2').select2({
-            theme: 'bootstrap4',
-        });
-    });
-</script>
-@endpush

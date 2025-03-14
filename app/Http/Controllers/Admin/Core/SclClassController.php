@@ -60,15 +60,12 @@ class SclClassController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.sclClasses.index')
-                ->with('success', 'Class created successfully.');
+            return handleResponse('Class created successfully.');
 
         } catch (Exception $e) {
             DB::rollBack();
 
-            return redirect()->back()
-            ->withInput()
-            ->with('error', 'Error occurred while creating class: ' . $e->getMessage());
+            return handleResponse('Error occurred while deleting class: ' . $e->getMessage(), 'error');
         }
     }
 
@@ -102,15 +99,13 @@ class SclClassController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.sclClasses.index')
-                ->with('success', 'Class updated successfully.');
+            return handleResponse('Class updated successfully.');
 
         } catch (Exception $e) {
             DB::rollBack();
 
-            return redirect()->back()
-            ->withInput()
-            ->with('error', 'Error occurred while updating class: ' . $e->getMessage());
+            return handleResponse('Error occurred while deleting class: ' . $e->getMessage());
+
         }
     }
 
@@ -126,12 +121,11 @@ class SclClassController extends Controller
 
             DB::commit();
 
-            return response()->json(['success' => true, 'message' => 'Class deleted successfully.']);
+            return handleResponse('Class deleted successfully.');
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
-
-            return response()->json(['success' => false, 'message' => 'Error occurred while deleting class: ' . $e->getMessage()]);
+            return handleResponse('Error occurred while deleting class: ' . $e->getMessage(), 'error');
         }
     }
 
@@ -140,12 +134,10 @@ class SclClassController extends Controller
         try {
             $this->sclClassRepository->restore($id);
 
-            return redirect()->route('admin.sclClasses.index')
-                ->with('success', 'Class restored successfully.');
+            return handleResponse('Class restored successfully.');
 
         } catch (Exception $e) {
-            return redirect()->back()
-            ->with('error', 'Error occurred while restoring class: ' . $e->getMessage());
+            return handleResponse('Error occurred while restoring class: ' . $e->getMessage(), 'error');
         }
     }
 }

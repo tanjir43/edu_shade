@@ -17782,6 +17782,7 @@ table.dataTable tbody th.focus {
 }
 .dataTables_info {
     font-weight: 600;
+    margin-top: 20px;
 }
 table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child:before,
 table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > th:first-child:before {
