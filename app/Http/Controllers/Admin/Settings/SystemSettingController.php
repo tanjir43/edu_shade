@@ -22,7 +22,7 @@ class SystemSettingController extends Controller
         }
 
         $settings  = $settingService->all();
-        return redirect()->back()->with('success', 'Password updated successfully.')->with('alert_type', 'toastr');
+        return handleResponse('System Settings updated successfully.');
     }
 
     public function systemSettingsSave(Request $request, SystemSettingService $settingService) {
