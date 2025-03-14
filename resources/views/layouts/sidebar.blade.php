@@ -22,7 +22,7 @@
             <li class="side-nav-item menuitem-active">
                 <a data-bs-toggle="collapse" href="#academic" aria-expanded="false" aria-controls="academic"
                     class="side-nav-link {{ request()->is('admin/sclClasses') || request()->is('admin/sclClasses*') ? 'active' : '' }}">
-                    <i class="fa fa-school"></i>
+                    <i class="fa fa-school right-sidebar-icon"></i>
                     <span> Academics </span>
                     <span class="menu-arrow"></span>
                 </a>
