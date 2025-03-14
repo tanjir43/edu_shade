@@ -43,7 +43,7 @@ class SystemSettingController extends Controller
             $this->updateEnvData($envUpdates);
         }
 
-        return redirect()->back()->with('success', 'Password updated successfully.')->with('alert_type', 'toastr');
+        return handleResponse('System Settings updated successfully.');
     }
 
     private function updateEnvData(array $data) {
