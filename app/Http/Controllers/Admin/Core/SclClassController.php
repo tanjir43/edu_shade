@@ -55,6 +55,13 @@ class SclClassController extends Controller
         }
     }
 
+    public function show($id)
+    {
+        $sclClass = $this->sclClassRepository->find($id);
+
+        return view('admin.sclClass.show', compact('sclClass'));
+    }
+
     public function edit($id, SclClassDataTable $dataTable, Request $request)
     {
         $sclClass   = $this->sclClassRepository->find($id);

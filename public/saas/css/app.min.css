@@ -19140,8 +19140,8 @@ a.side-nav-link.active {
 }
 
 .side-nav-second-level .menuitem-active .active{
-    background-color: rgba(255, 255, 255, 0.9);
-    color : #000 !important;
+    /* background-color: rgba(255, 255, 255, 0.9); */
+    color : #ffffff;
     margin: 0px 5px;
     border-radius: 5px;
 }

@@ -60,3 +60,10 @@ color: #690069 !important;
     opacity: 0.9 !important;
 }
 
+.right-sidebar-icon {
+    font-size: 12px !important;
+}
+
+.pl-30 {
+    padding-left: 30px;
+}

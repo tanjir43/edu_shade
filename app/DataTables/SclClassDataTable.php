@@ -13,34 +13,9 @@ class SclClassDataTable extends DataTable
 {
     protected $settings;
 
-     public function __construct()
-     {
-         $this->settings = SystemSetting::whereIn('key', [
-             'is_mantain_branch', 'is_mantain_version', 'is_mantain_shift'
-         ])->pluck('value', 'key');
-     }
-
     public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
-
-        if ($this->settings['is_mantain_branch']) {
-            $dataTable->addColumn('branch', function ($row) {
-                return $row->branch ? $row->branch->name : 'N/A';
-            });
-        }
-
-        if ($this->settings['is_mantain_version']) {
-            $dataTable->addColumn('version', function ($row) {
-                return $row->version ? $row->version->name : 'N/A';
-            });
-        }
-
-        if ($this->settings['is_mantain_shift']) {
-            $dataTable->addColumn('shift', function ($row) {
-                return $row->shift ? $row->shift->name : 'N/A';
-            });
-        }
 
         return $dataTable
         ->addColumn('status', function ($row) {
@@ -56,16 +31,7 @@ class SclClassDataTable extends DataTable
                 $searchValue = $this->request()->search['value'];
                 $query->where(function($query) use ($searchValue) {
                     $query->where('name', 'like', "%{$searchValue}%")
-                        ->orWhere('class_code', 'like', "%{$searchValue}%")
-                        ->orWhereHas('branch', function($q) use ($searchValue) {
-                            $q->where('name', 'like', "%{$searchValue}%");
-                        })
-                        ->orWhereHas('version', function($q) use ($searchValue) {
-                            $q->where('name', 'like', "%{$searchValue}%");
-                        })
-                        ->orWhereHas('shift', function($q) use ($searchValue) {
-                            $q->where('name', 'like', "%{$searchValue}%");
-                        });
+                    ->orWhere('class_code', 'like', "%{$searchValue}%");
                 });
             }
         }, true)
@@ -75,26 +41,6 @@ class SclClassDataTable extends DataTable
     public function query(SclClass $model): QueryBuilder
     {
         $query = $model->newQuery();
-
-        if ($this->settings['is_mantain_branch']) {
-            $query->with('branch');
-        }
-
-        if ($this->settings['is_mantain_version']) {
-            $query->with('version');
-        }
-
-        if ($this->settings['is_mantain_shift']) {
-            $query->with('shift');
-        }
-
-        if ($this->request()->has('name') && $this->request()->name != '') {
-            $query->where('name', 'like', '%' . $this->request()->name . '%');
-        }
-
-        if ($this->request()->has('active_status') && $this->request()->active_status != '') {
-            $query->where('active_status', $this->request()->active_status);
-        }
 
         return $query->select('scl_classes.*');
     }
@@ -164,18 +110,6 @@ class SclClassDataTable extends DataTable
             Column::make('name')->title('Name')->searchable(true),
             Column::make('class_code')->title('Class Code')->searchable(true),
         ];
-
-        if ($this->settings['is_mantain_branch']) {
-            $columns[] = Column::make('branch')->title('Branch')->searchable(true);
-        }
-
-        if ($this->settings['is_mantain_version']) {
-            $columns[] = Column::make('version')->title('Version')->searchable(true);
-        }
-
-        if ($this->settings['is_mantain_shift']) {
-            $columns[] = Column::make('shift')->title('Shift')->searchable(true);
-        }
 
         $columns[] = Column::computed('status')->title('Status')->width(100)->addClass('text-center');
 
