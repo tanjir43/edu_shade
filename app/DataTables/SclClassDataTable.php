@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\Models\SclClass;
-use App\Models\SystemSetting;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Services\DataTable;
