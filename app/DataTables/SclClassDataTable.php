@@ -14,6 +14,11 @@ class SclClassDataTable extends DataTable
 
     public function dataTable($query)
     {
+
+        $school = app('school');
+
+        $query = $school->applyFilters($query);
+
         $dataTable = new EloquentDataTable($query);
 
         return $dataTable

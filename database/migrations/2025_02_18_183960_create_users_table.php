@@ -46,6 +46,8 @@ return new class extends Migration
             $table->unsignedBigInteger('role_id')->default(1);
             $table->unsignedBigInteger('school_id')->default(1);
             $table->unsignedBigInteger('branch_id')->nullable();
+            $table->unsignedBigInteger('version_id')->nullable();
+            $table->unsignedBigInteger('shift_id')->nullable();
             $table->unsignedBigInteger('created_by')->default(1);
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->unsignedBigInteger('deleted_by')->nullable();
@@ -58,7 +60,9 @@ return new class extends Migration
             # Foreign Keys
             $table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade');
             $table->foreign('school_session_id')->references('id')->on('school_sessions')->onDelete('cascade');
-            $table->foreign('branch_id')->references('id')->on('schools')->onDelete('cascade');
+            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
+            $table->foreign('version_id')->references('id')->on('versions')->onDelete('cascade');
+            $table->foreign('shift_id')->references('id')->on('shifts')->onDelete('cascade');
             $table->foreign('school_id')->references('id')->on('schools')->onDelete('cascade');
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');

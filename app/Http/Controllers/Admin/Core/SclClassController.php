@@ -26,12 +26,7 @@ class SclClassController extends Controller
             return $dataTable->render('admin.sclClass.index');
         }
 
-        $filters = [
-            'name'          => $request->input('name', ''),
-            'active_status' => $request->input('active_status', '')
-        ];
-
-        return $dataTable->render('admin.sclClass.index', compact('filters'));
+        return $dataTable->render('admin.sclClass.index');
     }
 
     public function store(SclClassRequest $request)

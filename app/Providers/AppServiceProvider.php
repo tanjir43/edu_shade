@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\SchoolService;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Event;
 use App\Services\SystemSettingService;
@@ -17,6 +18,10 @@ class AppServiceProvider extends ServiceProvider
     */
     public function register(): void
     {
+        $this->app->singleton('school', function ($app) {
+            return new SchoolService();
+        });
+
         $this->app->singleton('system_setting', function ($app) {
             return new SystemSettingService();
         });
