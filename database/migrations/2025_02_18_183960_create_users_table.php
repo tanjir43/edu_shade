@@ -27,7 +27,7 @@ return new class extends Migration
             # Profile Details
             $table->unsignedBigInteger('language_id')->default(19);
             $table->integer('style_id')->default(1);
-            $table->boolean('rtl_ltl')->default(0);     # 0 = LTR, 1 = RTL
+            $table->boolean('rtl_ltr')->default(0);     # 0 = LTR, 1 = RTL
             $table->unsignedBigInteger('school_session_id')->default(1);
             $table->string('profile_photo_path', 2048)->nullable();
 

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
+use App\Http\Controllers\Admin\Settings\LanguageController;
 use App\Http\Controllers\Admin\Settings\SystemSettingController;
 use App\Http\Controllers\Auth\UserProfileController;
 
@@ -41,6 +42,9 @@ Route::middleware([
         Route::post('sclClasses/restore/{id}', [App\Http\Controllers\Admin\Core\SclClassController::class, 'restore'])->name('sclClasses.restore');
         Route::resource('class', App\Http\Controllers\Admin\Core\SclClassController::class);
     });
+
+    Route::post('/update-language', [LanguageController::class, 'updateLanguage'])->name('update.language');
+
 
     # Logout Route (Fix)
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');

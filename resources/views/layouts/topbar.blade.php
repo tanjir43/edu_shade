@@ -110,3 +110,30 @@ s<?php
         </li>
     </ul>
 </div>
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.language-option').on('click', function() {
+                let languageId = $(this).data('language-id');
+
+                $.ajax({
+                    url: '{{ route('update.language') }}',
+                    method: 'POST',
+                    data: {
+                        language_id: languageId,
+                        _token: $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        if(response.success) {
+                            location.reload();
+                        }
+                    },
+                    error: function(error) {
+                        console.error('Error updating language:', error);
+                    }
+                });
+            });
+        });
+    </script>
+@endpush

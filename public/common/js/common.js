@@ -27,6 +27,3 @@ function update_data(table,column,id,data, reload = true){
         }
     });
 }
-
-
-
