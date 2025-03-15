@@ -18,33 +18,30 @@ s<?php
         {{-- lang --}}
         <li class="dropdown notification-list topbar-dropdown">
             <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                @if (app()->getLocale() == 'bn')
-                    <img src="{{ asset('images/flags/bd.png') }}" alt="English" class="me-0 me-sm-1" height="12">
-                    <span class="align-middle d-none d-sm-inline-block">Bangla</span>
-                @else
-                    <img src="{{ asset('images/flags/us.jpg') }}" alt="English" class="me-0 me-sm-1" height="12">
-                    <span class="align-middle d-none d-sm-inline-block">English</span>
-                @endif
+                @php
+                    $viewData       = app('view_data');
+                    $userLanguage   = $viewData->getUserLanguage();
+                    $languages      = $viewData->languages();
+                    $currentLang    = $viewData->getCurrentLang($userLanguage);
+                @endphp
+
+                <img src="{{ asset($currentLang->image) }}" alt="{{ $currentLang->native }}" class="me-0 me-sm-1" height="12">
+                <span class="align-middle d-none d-sm-inline-block">{{ $currentLang->native }}</span>
                 <i class="mdi mdi-chevron-down d-none d-sm-inline-block align-middle"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu">
-
-                @if (app()->getLocale() == 'en')
-                    <a href="" class="dropdown-item notify-item">
-                        <img src="{{ asset('images/flags/bd.png') }}" alt="Bangla" class="me-1" height="12">
-                        <span class="align-middle">Bangla</span>
-                    </a>
-                @else
-                    <a href="" class="dropdown-item notify-item">
-                        <img src="{{ asset('images/flags/us.jpg') }}" alt="English" class="me-1" height="12">
-                        <span class="align-middle">English</span>
-                    </a>
-                @endif
-
+                @foreach($languages as $lang)
+                    @if($lang->id != $userLanguage)
+                        <a href="javascript:void(0);" class="dropdown-item notify-item language-option" data-language-id="{{ $lang->id }}">
+                            <img src="{{ asset($lang->image) }}" alt="{{ $lang->native }}" class="me-1" height="12">
+                            <span class="align-middle">{{ $lang->native }}</span>
+                        </a>
+                    @endif
+                @endforeach
             </div>
         </li>
 
-
+        {{-- notification --}}
         <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                 <i class="dripicons-bell noti-icon"></i>

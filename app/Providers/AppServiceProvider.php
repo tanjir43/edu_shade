@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\ViewData;
 use App\Services\SchoolService;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Event;
@@ -24,6 +25,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton('system_setting', function ($app) {
             return new SystemSettingService();
+        });
+
+        $this->app->singleton('view_data', function ($app) {
+            return new ViewData();
         });
 
         $this->bindRepositories();
