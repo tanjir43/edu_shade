@@ -13,10 +13,12 @@ use App\Repositories\Interfaces\SclClassRepositoryInterface;
 
 class SclClassController extends Controller
 {
+    protected $school;
     protected $sclClassRepository;
 
     public function __construct(SclClassRepositoryInterface $sclClassRepository)
     {
+        $this->school = app('school');
         $this->sclClassRepository = $sclClassRepository;
     }
 
@@ -35,6 +37,9 @@ class SclClassController extends Controller
             DB::beginTransaction();
 
             $data = $request->all();
+
+            $data = array_merge($data, $this->school->saveCoreSettings());
+
             $data['created_by'] = Auth::id();
 
             $this->sclClassRepository->create($data);
@@ -70,6 +75,9 @@ class SclClassController extends Controller
             DB::beginTransaction();
 
             $data = $request->all();
+
+            $data = array_merge($data, $this->school->saveCoreSettings());
+
             $data['updated_by'] = Auth::id();
 
             $this->sclClassRepository->update($id, $data);
@@ -79,8 +87,7 @@ class SclClassController extends Controller
 
         } catch (Exception $e) {
             DB::rollBack();
-
-            return handleResponse('Error occurred while deleting class: ' . $e->getMessage());
+            return handleResponse('Error occurred while updating class: ' . $e->getMessage());
         }
     }
 

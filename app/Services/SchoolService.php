@@ -72,4 +72,24 @@ class SchoolService
 
         return $query;
     }
+
+    public function saveCoreSettings(): array
+    {
+        $user = Auth::user();
+        $data = [];
+
+        $data['school_id'] = $user->school_id;
+
+        if ($this->manage('branch')) {
+            $data['branch_id'] = $user->branch_id;
+        }
+        if ($this->manage('shift')) {
+            $data['shift_id'] = $user->shift_id;
+        }
+        if ($this->manage('version')) {
+            $data['version_id'] = $user->version_id;
+        }
+
+        return $data;
+    }
 }
