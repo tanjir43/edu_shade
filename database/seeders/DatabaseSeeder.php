@@ -8,7 +8,6 @@ use Database\Seeders\core\BranchSeeder;
 use Database\Seeders\core\SchoolSeeder;
 use Database\Seeders\core\VersionSeeder;
 use Database\Seeders\default\UserSeeder;
-use Database\Seeders\default\LanguageSeeder;
 use Database\Seeders\core\SchoolSessionSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,7 +18,6 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        $this->call(LanguageSeeder::class);
         $this->call(SchoolSeeder::class);
         $this->call(BranchSeeder::class);
         $this->call(SchoolSessionSeeder::class);

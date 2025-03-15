@@ -19,7 +19,7 @@
     </div>
 
     <!-- Class Code Field -->
-    <div class="col-md-12">
+    <div class="col-md-12 mt-3">
         <div class="form-group">
             <label for="class_code">Class Code</label>
             <input type="text" name="class_code" id="class_code" value="{{ old('class_code', $sclClass->class_code ?? '') }}"
@@ -28,7 +28,7 @@
     </div>
 
     <!-- Active Status Field -->
-    <div class="col-md-12">
+    <div class="col-md-12 mt-3">
         <div class="form-group">
             <label for="active_status">Status <span class="text-danger">*</span></label>
             <select name="active_status" id="active_status" class="form-control" required>
