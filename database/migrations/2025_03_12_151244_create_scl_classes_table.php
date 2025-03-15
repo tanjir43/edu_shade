@@ -30,6 +30,11 @@ return new class extends Migration
             $table->unsignedBigInteger('updated_by')->nullable()->index();
             $table->unsignedBigInteger('deleted_by')->nullable()->index();
 
+            $table->foreign('school_id')->references('id')->on('schools')->onDelete('cascade');
+            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
+            $table->foreign('version_id')->references('id')->on('versions')->onDelete('cascade');
+            $table->foreign('shift_id')->references('id')->on('shifts')->onDelete('cascade');
+
             # Indexing
             $table->index(['school_id', 'branch_id', 'version_id', 'shift_id']);
 
