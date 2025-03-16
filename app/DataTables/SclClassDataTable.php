@@ -62,7 +62,7 @@ class SclClassDataTable extends DataTable
                 data.name = $('#filter-name').val();
                 data.active_status = $('#filter-status').val();
             ")
-            ->dom('rt<"row align-items-center"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>')
+            ->dom('Brt<"row align-items-center"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>')
             ->orderBy(1, 'asc')
             ->parameters([
                 'responsive' => true,
@@ -121,7 +121,6 @@ class SclClassDataTable extends DataTable
                         tableButtons.append('<button class=\"btn btn-light export-btn\"><i class=\"fas fa-file-export\"></i> Export</button>');
                         tableButtons.append('<button class=\"btn btn-light columns-btn\"><i class=\"fas fa-columns\"></i> Columns</button>');
                         tableButtons.append('<button class=\"btn btn-primary filter-btn\"><i class=\"fas fa-filter\"></i> Filters</button>');
-                        tableButtons.append('<div class=\"btn-group\"><button class=\"btn btn-light\"><i class=\"fas fa-th-large\"></i></button></div>');
 
                         controlPanel.append(entriesControl);
                         controlPanel.append(tableButtons);
@@ -150,11 +149,20 @@ class SclClassDataTable extends DataTable
                 }",
             ])
             ->buttons([
-                Button::make('csv')->addClass('d-none buttons-csv')->exportOptions(['columns' => ':visible']),
-                Button::make('excel')->addClass('d-none buttons-excel')->exportOptions(['columns' => ':visible']),
-                Button::make('pdf')->addClass('d-none buttons-pdf')->exportOptions(['columns' => ':visible']),
-                Button::make('print')->addClass('d-none buttons-print')->exportOptions(['columns' => ':visible']),
-                Button::make('colvis')->addClass('d-none'),
+                Button::make('csv')
+                    ->addClass('d-none buttons-csv')
+                    ->exportOptions(['columns' => ':visible']),
+                Button::make('excel')
+                    ->addClass('d-none buttons-excel')
+                    ->exportOptions(['columns' => ':visible']),
+                Button::make('pdf')
+                    ->addClass('d-none buttons-pdf')
+                    ->exportOptions(['columns' => ':visible']),
+                Button::make('print')
+                    ->addClass('d-none buttons-print')
+                    ->exportOptions(['columns' => ':visible']),
+                Button::make('colvis')
+                    ->addClass('d-none buttons-colvis'),
             ]);
     }
 
