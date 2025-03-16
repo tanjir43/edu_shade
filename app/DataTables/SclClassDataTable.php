@@ -79,6 +79,23 @@ class SclClassDataTable extends DataTable
                         'next' => '<i class="fas fa-chevron-right"></i>'
                     ],
                     'info' => "Showing _START_ to _END_ of _TOTAL_ entries",
+                    'buttons' => [
+                        'collection' => 'Export <i class="fas fa-angle-down"></i>',
+                        'colvis' => 'Columns <i class="fas fa-angle-down"></i>'
+                    ]
+                ],
+                'dom' => 'rt<"row align-items-center"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+                'buttons' => [
+                    'collection' => [
+                        'className' => 'btn-light',
+                        'buttonDisplay' => 'static',
+                        'autoClose' => true
+                    ],
+                    'colvis' => [
+                        'className' => 'btn-light',
+                        'columns' => ':not(.noVis)',
+                        'collectionLayout' => 'fixed'
+                    ]
                 ],
                 'initComplete' => "function() {
                     // Add custom control elements
@@ -133,16 +150,27 @@ class SclClassDataTable extends DataTable
                 }",
             ])
             ->buttons([
-                Button::make('excel')
-                    ->addClass('d-none')
-                    ->text('Export')
-                    ->exportOptions([
-                        'columns' => ':visible',
-                    ]),
+                Button::make('collection')
+                    ->text('<i class="fas fa-file-export"></i> Export')
+                    ->buttons([
+                        Button::make('csv')
+                            ->text('<i class="fas fa-file-csv"></i> CSV')
+                            ->exportOptions(['columns' => ':visible']),
+                        Button::make('excel')
+                            ->text('<i class="fas fa-file-excel"></i> Excel')
+                            ->exportOptions(['columns' => ':visible']),
+                        Button::make('pdf')
+                            ->text('<i class="fas fa-file-pdf"></i> PDF')
+                            ->exportOptions(['columns' => ':visible']),
+                        Button::make('print')
+                            ->text('<i class="fas fa-print"></i> Print')
+                            ->exportOptions(['columns' => ':visible']),
+                    ])
+                    ->addClass('d-none'),
                 Button::make('colvis')
                     ->addClass('d-none')
                     ->text('Columns'),
-            ]);
+                ]);
     }
 
     protected function getColumns()

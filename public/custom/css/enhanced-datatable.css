@@ -577,3 +577,88 @@ table.dataTable.no-footer {
     background: -o-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 25%, rgba(255, 255, 255, 0.9) 75%, rgba(255, 255, 255, 0) 100%);
     background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 25%, rgba(255, 255, 255, 0.9) 75%, rgba(255, 255, 255, 0) 100%);
 }
+
+.dt-button-collection-container {
+    width: 200px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+.export-dropdown,
+.columns-dropdown {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.dt-button-collection-container .dropdown-item {
+    padding: 0.6rem 1rem;
+    color: #464e5f;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.dt-button-collection-container .dropdown-item:hover {
+    background-color: #f1f3f9;
+}
+
+.dt-button-collection-container .dropdown-item i {
+    margin-right: 8px;
+    color: #6366f1;
+    font-size: 0.9rem;
+    width: 18px;
+    text-align: center;
+}
+
+/* Column visibility checkbox styling */
+.columns-dropdown .dropdown-item label {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+    cursor: pointer;
+}
+
+.columns-dropdown .dropdown-item input[type="checkbox"] {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    border: 1px solid #e4e6ef;
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: #fff;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.columns-dropdown .dropdown-item input[type="checkbox"]:checked {
+    background-color: #6366f1;
+    border-color: #6366f1;
+}
+
+.columns-dropdown .dropdown-item input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 2px;
+    width: 5px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* Hide any DataTables built-in dropdowns that might appear */
+div.dt-button-collection:not(.dt-button-collection-container) {
+    display: none !important;
+}
