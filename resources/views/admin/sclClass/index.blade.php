@@ -33,48 +33,70 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
-        // Setup event handlers after DataTable is initialized
-        var table = window.LaravelDataTables["scl-classes-table"];
+        // Wait for DataTable to be fully initialized
+        var dataTableInitialized = false;
+        var table;
 
-        // Setup filter button
-        $('.filter-button, .filter-btn').on('click', function() {
-            $('#filter-panel').toggleClass('d-none');
-        });
+        // Function to initialize event handlers
+        function initializeEventHandlers() {
+            if (!dataTableInitialized) return;
 
-        // Connect filter elements
-        $('#filter-name, #filter-status').on('change', function() {
-            table.draw();
-        });
+            // Setup filter button
+            $(document).on('click', '.filter-btn', function() {
+                $('#filter-panel').toggleClass('d-none');
+            });
 
-        // Reset filters
-        $('#btn-clear-filter').on('click', function() {
-            $('#filter-name').val('');
-            $('#filter-status').val('');
-            table.draw();
-        });
+            // Export button handler - properly triggers the Excel export
+            $(document).on('click', '.export-btn', function() {
+                table.button('.buttons-excel:first').trigger();
+            });
 
-        // Apply filters
-        $('#btn-apply-filter').on('click', function() {
-            table.draw();
-            $('#filter-panel').addClass('d-none');
-        });
+            // Columns button handler - properly triggers the column visibility
+            $(document).on('click', '.columns-btn', function() {
+                table.button('.buttons-colvis:first').trigger();
+            });
 
-        // Handle checkbox selection
-        $('#select-all-checkbox').on('click', function() {
-            const isChecked = $(this).prop('checked');
-            $('.dt-checkboxes').prop('checked', isChecked);
-        });
+            // Reset filters
+            $(document).on('click', '#btn-clear-filter', function() {
+                $('#filter-name').val('');
+                $('#filter-status').val('');
+                table.draw();
+            });
 
-        // Initialize tooltips
-        $('[data-bs-toggle="tooltip"]').tooltip();
+            // Apply filters
+            $(document).on('click', '#btn-apply-filter', function() {
+                table.draw();
+                $('#filter-panel').addClass('d-none');
+            });
 
-        // Custom length menu
-        var lengthSelect = $('#table-length-select');
-        if (lengthSelect.length) {
-            lengthSelect.on('change', function() {
+            // Handle checkbox selection
+            $(document).on('click', '#select-all-checkbox', function() {
+                const isChecked = $(this).prop('checked');
+                $('.dt-checkboxes').prop('checked', isChecked);
+            });
+
+            // Initialize tooltips
+            $('[data-bs-toggle="tooltip"]').tooltip();
+
+            // Custom length menu
+            $(document).on('change', '#table-length-select', function() {
                 table.page.len($(this).val()).draw();
             });
         }
+
+        // Check if DataTable exists and initialize
+        var checkDataTable = setInterval(function() {
+            if (window.LaravelDataTables && window.LaravelDataTables["scl-classes-table"]) {
+                table = window.LaravelDataTables["scl-classes-table"];
+                dataTableInitialized = true;
+
+                // Initialize event handlers
+                initializeEventHandlers();
+
+                // Clear interval once initialized
+                clearInterval(checkDataTable);
+            }
+        }, 100);
     });
 </script>
 @endpush

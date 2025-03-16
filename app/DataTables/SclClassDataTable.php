@@ -133,8 +133,15 @@ class SclClassDataTable extends DataTable
                 }",
             ])
             ->buttons([
-                Button::make('excel')->addClass('d-none'),
-                Button::make('colvis')->addClass('d-none'),
+                Button::make('excel')
+                    ->addClass('d-none')
+                    ->text('Export')
+                    ->exportOptions([
+                        'columns' => ':visible',
+                    ]),
+                Button::make('colvis')
+                    ->addClass('d-none')
+                    ->text('Columns'),
             ]);
     }
 
