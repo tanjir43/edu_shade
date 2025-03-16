@@ -89,3 +89,20 @@ color: #690069 !important;
     font-size: 12px;
     cursor: pointer;
 }
+
+.btn-icon-hover:hover {
+    color: #fff !important;
+    background-color: var(--bs-primary) !important;
+}
+
+.btn-icon-hover.text-success:hover {
+    background-color: var(--bs-success) !important;
+}
+
+.btn-icon-hover.text-primary:hover {
+    background-color: var(--bs-primary) !important;
+}
+
+.btn-icon-hover.text-danger:hover {
+    background-color: var(--bs-danger) !important;
+}

@@ -13,15 +13,15 @@
                 <span id="selected-count" class="badge bg-primary me-2">0 selected</span>
 
                 <div class="btn-group">
-                    <button type="button" id="bulk-delete-btn" class="btn btn-sm btn-danger">
+                    <button type="button" id="bulk-delete-btn" class="btn btn-sm btn-danger btn-action-delete">
                         <i class="fas fa-trash"></i> Delete
                     </button>
 
-                    <button type="button" id="bulk-restore-btn" class="btn btn-sm btn-success trashed-action d-none">
+                    <button type="button" id="bulk-restore-btn" class="btn btn-sm btn-success btn-action-restore trashed-action d-none">
                         <i class="fas fa-trash-restore"></i> Restore
                     </button>
 
-                    <button type="button" id="bulk-force-delete-btn" class="btn btn-sm btn-danger ms-2 trashed-action d-none">
+                    <button type="button" id="bulk-force-delete-btn" class="btn btn-sm btn-danger btn-action-force-delete ms-2 trashed-action d-none">
                         <i class="fas fa-trash-alt"></i> Force Delete
                     </button>
                 </div>

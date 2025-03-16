@@ -265,83 +265,156 @@ class SclClassDataTable extends DataTable
 
                     // Bulk delete action
                     $(document).off('click', '#bulk-delete-btn').on('click', '#bulk-delete-btn', function() {
-                        if (window.selectedRows.length > 0 && confirm('Are you sure you want to delete ' + window.selectedRows.length + ' selected items?')) {
-                            $.ajax({
-                                url: '" . route('admin.class.bulkDestroy') . "',
-                                type: 'POST',
-                                data: {
-                                    ids: window.selectedRows.join(','),
-                                    _token: $('meta[name=\"csrf-token\"]').attr('content')
-                                },
-                                success: function(response) {
-                                    // Show success message
-                                    toastr.success(response.message);
-
-                                    // Refresh the table
-                                    window.LaravelDataTables[\"scl-classes-table\"].draw();
-
-                                    // Reset selections
-                                    window.selectedRows = [];
-                                    $('#select-all-checkbox').prop('checked', false);
-                                    updateBulkActionUI();
-                                },
-                                error: function(error) {
-                                    toastr.error('Error occurred during bulk delete operation');
-                                    console.error(error);
+                        if (window.selectedRows.length > 0) {
+                            if (typeof Swal !== 'undefined') {
+                                Swal.fire({
+                                    title: 'Are you sure?',
+                                    text: `You are about to delete ` + window.selectedRows.length + ` selected items.`,
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#d33',
+                                    cancelButtonColor: '#3085d6',
+                                    confirmButtonText: 'Yes, delete them!'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        bulkDelete();
+                                    }
+                                });
+                            } else {
+                                if (confirm('Are you sure you want to delete ' + window.selectedRows.length + ' selected items?')) {
+                                    bulkDelete();
                                 }
-                            });
+                            }
+                        } else {
+                            toastr.warning('No items selected for deletion.');
                         }
                     });
 
-                    // Bulk restore action
+                    function bulkDelete() {
+                        $.ajax({
+                            url: '" . route('admin.class.bulkDestroy') . "',
+                            type: 'POST',
+                            data: {
+                                ids: window.selectedRows.join(','),
+                                _token: $('meta[name=\"csrf-token\"]').attr('content')
+                            },
+                            success: function(response) {
+                                // Show success message
+                                toastr.success(response.message);
+
+                                // Refresh the table
+                                window.LaravelDataTables[`scl-classes-table`].draw();
+
+                                // Reset selections
+                                window.selectedRows = [];
+                                $('#select-all-checkbox').prop('checked', false);
+                                updateBulkActionUI();
+                            },
+                            error: function(error) {
+                                toastr.error('Error occurred during bulk delete operation');
+                                console.error(error);
+                            }
+                        });
+                    }
+
+                    // Bulk Restore Action with SweetAlert
                     $(document).off('click', '#bulk-restore-btn').on('click', '#bulk-restore-btn', function() {
-                        if (window.selectedRows.length > 0 && confirm('Are you sure you want to restore ' + window.selectedRows.length + ' selected items?')) {
-                            $.ajax({
-                                url: '" . route('admin.class.bulkRestore') . "',
-                                type: 'POST',
-                                data: {
-                                    ids: window.selectedRows.join(','),
-                                    _token: $('meta[name=\"csrf-token\"]').attr('content')
-                                },
-                                success: function(response) {
-                                    toastr.success(response.message);
-                                    window.LaravelDataTables[\"scl-classes-table\"].draw();
-                                    window.selectedRows = [];
-                                    $('#select-all-checkbox').prop('checked', false);
-                                    updateBulkActionUI();
-                                },
-                                error: function(error) {
-                                    toastr.error('Error occurred during bulk restore operation');
-                                    console.error(error);
+                        if (window.selectedRows.length > 0) {
+                            if (typeof Swal !== 'undefined') {
+                                Swal.fire({
+                                    title: 'Are you sure?',
+                                    text: `You are about to restore ` + window.selectedRows.length + ` selected items.`,
+                                    icon: 'info',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#28a745',
+                                    cancelButtonColor: '#6c757d',
+                                    confirmButtonText: 'Yes, restore them!'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        bulkRestore();
+                                    }
+                                });
+                            } else {
+                                if (confirm('Are you sure you want to restore ' + window.selectedRows.length + ' selected items?')) {
+                                    bulkRestore();
                                 }
-                            });
+                            }
+                        } else {
+                            toastr.warning('No items selected for restoration.');
                         }
                     });
 
-                    // Bulk force delete action
+                    function bulkRestore() {
+                        $.ajax({
+                            url: '" . route('admin.class.bulkRestore') . "',
+                            type: 'POST',
+                            data: {
+                                ids: window.selectedRows.join(','),
+                                _token: $('meta[name=\"csrf-token\"]').attr('content')
+                            },
+                            success: function(response) {
+                                toastr.success(response.message);
+                                window.LaravelDataTables[`scl-classes-table`].draw();
+                                window.selectedRows = [];
+                                $('#select-all-checkbox').prop('checked', false);
+                                updateBulkActionUI();
+                            },
+                            error: function(error) {
+                                toastr.error('Error occurred during bulk restore operation');
+                                console.error(error);
+                            }
+                        });
+                    }
+
+                    // Bulk Force Delete Action with SweetAlert
                     $(document).off('click', '#bulk-force-delete-btn').on('click', '#bulk-force-delete-btn', function() {
-                        if (window.selectedRows.length > 0 && confirm('WARNING: This action cannot be undone. Are you sure you want to permanently delete ' + window.selectedRows.length + ' selected items?')) {
-                            $.ajax({
-                                url: '" . route('admin.class.bulkForceDelete') . "',
-                                type: 'POST',
-                                data: {
-                                    ids: window.selectedRows.join(','),
-                                    _token: $('meta[name=\"csrf-token\"]').attr('content')
-                                },
-                                success: function(response) {
-                                    toastr.success(response.message);
-                                    window.LaravelDataTables[\"scl-classes-table\"].draw();
-                                    window.selectedRows = [];
-                                    $('#select-all-checkbox').prop('checked', false);
-                                    updateBulkActionUI();
-                                },
-                                error: function(error) {
-                                    toastr.error('Error occurred during bulk force delete operation');
-                                    console.error(error);
+                        if (window.selectedRows.length > 0) {
+                            if (typeof Swal !== 'undefined') {
+                                Swal.fire({
+                                    title: 'WARNING: This action cannot be undone!',
+                                    text: `You are about to permanently delete ` + window.selectedRows.length + ` selected items. This cannot be reversed.`,
+                                    icon: 'error',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#d33',
+                                    cancelButtonColor: '#6c757d',
+                                    confirmButtonText: 'Yes, delete them permanently!'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        bulkForceDelete();
+                                    }
+                                });
+                            } else {
+                                if (confirm('WARNING: This action cannot be undone. Are you sure you want to permanently delete ' + window.selectedRows.length + ' selected items?')) {
+                                    bulkForceDelete();
                                 }
-                            });
+                            }
+                        } else {
+                            toastr.warning('No items selected for deletion.');
                         }
                     });
+
+                    function bulkForceDelete() {
+                        $.ajax({
+                            url: '" . route('admin.class.bulkForceDelete') . "',
+                            type: 'POST',
+                            data: {
+                                ids: window.selectedRows.join(','),
+                                _token: $('meta[name=\"csrf-token\"]').attr('content')
+                            },
+                            success: function(response) {
+                                toastr.success(response.message);
+                                window.LaravelDataTables[`scl-classes-table`].draw();
+                                window.selectedRows = [];
+                                $('#select-all-checkbox').prop('checked', false);
+                                updateBulkActionUI();
+                            },
+                            error: function(error) {
+                                toastr.error('Error occurred during bulk force delete operation');
+                                console.error(error);
+                            }
+                        });
+                    }
+
                 }",
                 'drawCallback' => "function() {
                     $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
