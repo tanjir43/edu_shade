@@ -5,6 +5,8 @@ namespace App\Repositories\Interfaces;
 interface SclClassRepositoryInterface
 {
     public function all();
+    public function getTrashed();
+    public function withTrashedItems();
     public function find($id);
     public function create(array $data);
     public function update($id, array $data);

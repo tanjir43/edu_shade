@@ -38,8 +38,15 @@ Route::middleware([
 
     Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
         // SclClass Routes
-        Route::get('sclClasses/filter', [App\Http\Controllers\Admin\Core\SclClassController::class, 'filter'])->name('sclClasses.filter');
-        Route::post('sclClasses/restore/{id}', [App\Http\Controllers\Admin\Core\SclClassController::class, 'restore'])->name('sclClasses.restore');
+        Route::get('class/filter', [App\Http\Controllers\Admin\Core\SclClassController::class, 'filter'])->name('class.filter');
+        Route::post('class/restore/{id}', [App\Http\Controllers\Admin\Core\SclClassController::class, 'restore'])->name('class.restore');
+        Route::delete('class/force-delete/{id}', [App\Http\Controllers\Admin\Core\SclClassController::class, 'forceDelete'])->name('class.forceDelete');
+
+        // Bulk operations routes
+        Route::post('class/bulk-destroy', [App\Http\Controllers\Admin\Core\SclClassController::class, 'bulkDestroy'])->name('class.bulkDestroy');
+        Route::post('class/bulk-restore', [App\Http\Controllers\Admin\Core\SclClassController::class, 'bulkRestore'])->name('class.bulkRestore');
+        Route::post('class/bulk-force-delete', [App\Http\Controllers\Admin\Core\SclClassController::class, 'bulkForceDelete'])->name('class.bulkForceDelete');
+
         Route::resource('class', App\Http\Controllers\Admin\Core\SclClassController::class);
     });
 

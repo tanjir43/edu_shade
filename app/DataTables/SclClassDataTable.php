@@ -1,6 +1,4 @@
 <?php
-// Updated SclClassDataTable.php
-
 namespace App\DataTables;
 
 use App\Models\SclClass;
@@ -13,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 class SclClassDataTable extends DataTable
 {
     protected $settings;
+    protected $withTrashed = 'active'; // Default: only active records
 
     public function dataTable($query)
     {
@@ -27,7 +26,11 @@ class SclClassDataTable extends DataTable
                     '<span class="badge bg-soft-danger text-danger">inactive</span>';
             })
             ->addColumn('action', function($row) {
-                return view('admin.sclClass.datatables_actions', ['id' => $row->id])->render();
+                $data = [
+                    'id' => $row->id,
+                    'deleted_at' => isset($row->deleted_at) ? $row->deleted_at : null,
+                ];
+                return view('admin.sclClass.datatables_actions', $data)->render();
             })
             ->addColumn('checkbox', function($row) {
                 return '<input type="checkbox" class="dt-checkboxes form-check-input" name="id[]" value="'.$row->id.'">';
@@ -43,6 +46,20 @@ class SclClassDataTable extends DataTable
                 if ($this->request()->has('active_status') && $this->request()->get('active_status') != '') {
                     $query->where('active_status', $this->request()->get('active_status'));
                 }
+
+                // Apply trashed filter
+                if ($this->request()->has('filter_trashed')) {
+                    $trashedFilter = $this->request()->get('filter_trashed');
+                    if ($trashedFilter == 'trashed') {
+                        $query->onlyTrashed();
+                    } else if ($trashedFilter == 'all') {
+                        $query->withTrashed();
+                    }
+                } else if ($this->withTrashed == 'trashed') {
+                    $query->onlyTrashed();
+                } else if ($this->withTrashed == 'all') {
+                    $query->withTrashed();
+                }
             }, true)
             ->rawColumns(['status', 'action', 'checkbox', 'created_at_formatted']);
     }
@@ -50,6 +67,14 @@ class SclClassDataTable extends DataTable
     public function query(SclClass $model): QueryBuilder
     {
         $query = $model->newQuery();
+
+        // Apply trashed filter to base query if needed
+        if ($this->withTrashed == 'trashed') {
+            $query->onlyTrashed();
+        } else if ($this->withTrashed == 'all') {
+            $query->withTrashed();
+        }
+
         return $query->select('scl_classes.*');
     }
 
@@ -61,6 +86,7 @@ class SclClassDataTable extends DataTable
             ->minifiedAjax(route('admin.class.index'), "
                 data.name = $('#filter-name').val();
                 data.active_status = $('#filter-status').val();
+                data.filter_trashed = $('#filter-trashed').val();
             ")
             ->dom('Brt<"row align-items-center"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>')
             ->orderBy(1, 'asc')
@@ -105,6 +131,18 @@ class SclClassDataTable extends DataTable
                         // Create table control panel if it doesn't exist
                         var controlPanel = $('<div class=\"table-control-panel\"></div>');
 
+                        // Bulk Actions (Initially Hidden)
+                        var bulkActions = $('<div id=\"bulk-actions\" class=\"bulk-actions d-none me-3\"></div>');
+                        bulkActions.append('<span id=\"selected-count\" class=\"badge bg-primary me-2\">0 selected</span>');
+
+                        var bulkBtnGroup = $('<div class=\"btn-group\"></div>');
+                        bulkBtnGroup.append('<button type=\"button\" id=\"bulk-delete-btn\" class=\"btn btn-sm btn-danger\"><i class=\"fas fa-trash\"></i> Delete</button>');
+                        bulkBtnGroup.append('<button type=\"button\" id=\"bulk-restore-btn\" class=\"btn btn-sm btn-success trashed-action d-none\"><i class=\"fas fa-trash-restore\"></i> Restore</button>');
+                        bulkBtnGroup.append('<button type=\"button\" id=\"bulk-force-delete-btn\" class=\"btn btn-sm btn-danger trashed-action d-none\"><i class=\"fas fa-trash-alt\"></i> Force Delete</button>');
+
+                        bulkActions.append(bulkBtnGroup);
+                        bulkActions.append('<button type=\"button\" id=\"clear-selection-btn\" class=\"btn btn-sm btn-secondary ms-2\"><i class=\"fas fa-times\"></i> Clear</button>');
+
                         // Length dropdown
                         var entriesControl = $('<div class=\"entries-control\"></div>');
                         entriesControl.append('Show ');
@@ -122,6 +160,7 @@ class SclClassDataTable extends DataTable
                         tableButtons.append('<button class=\"btn btn-light columns-btn\"><i class=\"fas fa-columns\"></i> Columns</button>');
                         tableButtons.append('<button class=\"btn btn-primary filter-btn\"><i class=\"fas fa-filter\"></i> Filters</button>');
 
+                        controlPanel.append(bulkActions);
                         controlPanel.append(entriesControl);
                         controlPanel.append(tableButtons);
 
@@ -142,10 +181,182 @@ class SclClassDataTable extends DataTable
                         $('.columns-btn').on('click', function() {
                             $('.buttons-colvis').click();
                         });
+
+                        // Toggle trashed action buttons based on filter
+                        $('#filter-trashed').on('change', function() {
+                            if ($(this).val() === 'trashed') {
+                                $('.trashed-action').removeClass('d-none');
+                                $('#bulk-delete-btn').addClass('d-none');
+                            } else {
+                                $('.trashed-action').addClass('d-none');
+                                $('#bulk-delete-btn').removeClass('d-none');
+                            }
+                        });
                     }
+
+                    // Initialize row selection tracking
+                    window.selectedRows = [];
+
+                    // Select all checkbox handler
+                    $(document).off('click', '#select-all-checkbox').on('click', '#select-all-checkbox', function() {
+                        const isChecked = $(this).prop('checked');
+                        $('.dt-checkboxes').prop('checked', isChecked);
+
+                        if (isChecked) {
+                            // Get all visible rows on the current page
+                            $('.dt-checkboxes:visible').each(function() {
+                                const id = $(this).val();
+                                if (!window.selectedRows.includes(id)) {
+                                    window.selectedRows.push(id);
+                                }
+                            });
+                        } else {
+                            // Clear selection for visible rows
+                            $('.dt-checkboxes:visible').each(function() {
+                                const id = $(this).val();
+                                window.selectedRows = window.selectedRows.filter(item => item !== id);
+                            });
+                        }
+
+                        updateBulkActionUI();
+                    });
+
+                    // Individual checkbox selection
+                    $(document).off('click', '.dt-checkboxes').on('click', '.dt-checkboxes', function() {
+                        const id = $(this).val();
+                        const isChecked = $(this).prop('checked');
+
+                        if (isChecked && !window.selectedRows.includes(id)) {
+                            window.selectedRows.push(id);
+                        } else if (!isChecked) {
+                            window.selectedRows = window.selectedRows.filter(item => item !== id);
+                            // Uncheck 'select all' if any row is unchecked
+                            $('#select-all-checkbox').prop('checked', false);
+                        }
+
+                        updateBulkActionUI();
+                    });
+
+                    // Clear selection button
+                    $(document).off('click', '#clear-selection-btn').on('click', '#clear-selection-btn', function() {
+                        $('.dt-checkboxes').prop('checked', false);
+                        $('#select-all-checkbox').prop('checked', false);
+                        window.selectedRows = [];
+                        updateBulkActionUI();
+                    });
+
+                    function updateBulkActionUI() {
+                        if (window.selectedRows.length > 0) {
+                            // Show bulk actions and counter
+                            $('#bulk-actions').removeClass('d-none');
+                            $('#selected-count').text(window.selectedRows.length + ' selected');
+                        } else {
+                            // Hide bulk actions
+                            $('#bulk-actions').addClass('d-none');
+                        }
+
+                        // Ensure trashed action state is correct
+                        if ($('#filter-trashed').val() === 'trashed') {
+                            $('.trashed-action').removeClass('d-none');
+                            $('#bulk-delete-btn').addClass('d-none');
+                        } else {
+                            $('.trashed-action').addClass('d-none');
+                            $('#bulk-delete-btn').removeClass('d-none');
+                        }
+                    }
+
+                    // Bulk delete action
+                    $(document).off('click', '#bulk-delete-btn').on('click', '#bulk-delete-btn', function() {
+                        if (window.selectedRows.length > 0 && confirm('Are you sure you want to delete ' + window.selectedRows.length + ' selected items?')) {
+                            $.ajax({
+                                url: '" . route('admin.class.bulkDestroy') . "',
+                                type: 'POST',
+                                data: {
+                                    ids: window.selectedRows.join(','),
+                                    _token: $('meta[name=\"csrf-token\"]').attr('content')
+                                },
+                                success: function(response) {
+                                    // Show success message
+                                    toastr.success(response.message);
+
+                                    // Refresh the table
+                                    window.LaravelDataTables[\"scl-classes-table\"].draw();
+
+                                    // Reset selections
+                                    window.selectedRows = [];
+                                    $('#select-all-checkbox').prop('checked', false);
+                                    updateBulkActionUI();
+                                },
+                                error: function(error) {
+                                    toastr.error('Error occurred during bulk delete operation');
+                                    console.error(error);
+                                }
+                            });
+                        }
+                    });
+
+                    // Bulk restore action
+                    $(document).off('click', '#bulk-restore-btn').on('click', '#bulk-restore-btn', function() {
+                        if (window.selectedRows.length > 0 && confirm('Are you sure you want to restore ' + window.selectedRows.length + ' selected items?')) {
+                            $.ajax({
+                                url: '" . route('admin.class.bulkRestore') . "',
+                                type: 'POST',
+                                data: {
+                                    ids: window.selectedRows.join(','),
+                                    _token: $('meta[name=\"csrf-token\"]').attr('content')
+                                },
+                                success: function(response) {
+                                    toastr.success(response.message);
+                                    window.LaravelDataTables[\"scl-classes-table\"].draw();
+                                    window.selectedRows = [];
+                                    $('#select-all-checkbox').prop('checked', false);
+                                    updateBulkActionUI();
+                                },
+                                error: function(error) {
+                                    toastr.error('Error occurred during bulk restore operation');
+                                    console.error(error);
+                                }
+                            });
+                        }
+                    });
+
+                    // Bulk force delete action
+                    $(document).off('click', '#bulk-force-delete-btn').on('click', '#bulk-force-delete-btn', function() {
+                        if (window.selectedRows.length > 0 && confirm('WARNING: This action cannot be undone. Are you sure you want to permanently delete ' + window.selectedRows.length + ' selected items?')) {
+                            $.ajax({
+                                url: '" . route('admin.class.bulkForceDelete') . "',
+                                type: 'POST',
+                                data: {
+                                    ids: window.selectedRows.join(','),
+                                    _token: $('meta[name=\"csrf-token\"]').attr('content')
+                                },
+                                success: function(response) {
+                                    toastr.success(response.message);
+                                    window.LaravelDataTables[\"scl-classes-table\"].draw();
+                                    window.selectedRows = [];
+                                    $('#select-all-checkbox').prop('checked', false);
+                                    updateBulkActionUI();
+                                },
+                                error: function(error) {
+                                    toastr.error('Error occurred during bulk force delete operation');
+                                    console.error(error);
+                                }
+                            });
+                        }
+                    });
                 }",
                 'drawCallback' => "function() {
                     $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
+
+                    // Update checkbox state for selected rows
+                    if (window.selectedRows && window.selectedRows.length > 0) {
+                        $('.dt-checkboxes').each(function() {
+                            const id = $(this).val();
+                            if (window.selectedRows.includes(id)) {
+                                $(this).prop('checked', true);
+                            }
+                        });
+                    }
                 }",
             ])
             ->buttons([
@@ -203,6 +414,24 @@ class SclClassDataTable extends DataTable
 
         return $columns;
     }
+
+    /**
+     * Set the with trashed parameter.
+     *
+     * @param array|string $key
+     * @param mixed $value
+     * @return static
+     */
+    // public function with($key, $value = null)
+    // {
+    //     if (is_string($key) && $key === 'trashed') {
+    //         $this->withTrashed = $value;
+    //     } else {
+    //         parent::with($key, $value);
+    //     }
+
+    //     return $this;
+    // }
 
     protected function filename(): string
     {
