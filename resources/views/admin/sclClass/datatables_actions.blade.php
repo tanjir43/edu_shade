@@ -1,17 +1,20 @@
-<form action="{{ route('admin.class.destroy', $id) }}" method="POST" id="delete-form-{{ $id }}">
-    @csrf
-    @method('DELETE')
-    <div class='btn-group'>
-        <a href="{{ route('admin.class.show', $id) }}" class='btn btn-sm btn-outline-primary' title="View">
-            <i class="fa fa-eye"></i>
-        </a>
-        <a href="{{ route('admin.class.edit', $id) }}" class='btn btn-sm btn-outline-success' title="Edit">
-            <i class="fa fa-edit"></i>
-        </a>
-        <button type="button" class='btn btn-sm btn-outline-danger btn-action-delete' title="Delete" data-record="class">
-            <i class="fa fa-trash"></i>
+<!-- Updated datatables_actions.blade.php -->
+<div class="action-btn">
+    <form action="{{ route('admin.class.destroy', $id) }}" method="POST" id="delete-form-{{ $id }}" class="d-inline">
+        @csrf
+        @method('DELETE')
+        <button type="button" class="btn btn-icon text-danger"
+                data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"
+                onclick="confirmDelete('{{ $id }}', 'class')">
+            <i class="fas fa-trash"></i>
         </button>
-    </div>
-</form>
+    </form>
+</div>
 
-<script src="{{asset('js/delete-confirmation.js')}}"></script>
+<script>
+    function confirmDelete(id, type) {
+        if (confirm('Are you sure you want to delete this ' + type + '?')) {
+            document.getElementById('delete-form-' + id).submit();
+        }
+    }
+</script>
