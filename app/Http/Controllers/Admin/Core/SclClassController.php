@@ -147,7 +147,6 @@ class SclClassController extends Controller
 
             $ids = explode(',', $request->ids);
 
-            // Mark who deleted these items
             foreach ($ids as $id) {
                 $sclClass = $this->sclClassRepository->find($id);
                 $sclClass->update(['deleted_by' => Auth::id()]);
@@ -231,10 +230,8 @@ class SclClassController extends Controller
 
     public function filter(Request $request)
     {
-        // If using a custom filter handling method
         $dataTable = app(SclClassDataTable::class);
 
-        // Apply trashed filter if provided
         if ($request->has('trashed')) {
             $dataTable->with('trashed', $request->trashed);
         }

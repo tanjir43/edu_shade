@@ -62,12 +62,10 @@ class SclClassRepository implements SclClassRepositoryInterface
     public function restore($id)
     {
         if (strpos($id, ',') !== false) {
-            // Handle multiple IDs
             $ids = explode(',', $id);
             return $this->model->withTrashed()->whereIn('id', $ids)->restore();
         }
 
-        // Handle single ID
         $sclClass = $this->model->withTrashed()->findOrFail($id);
         $sclClass->restore();
         return $sclClass;
@@ -76,12 +74,10 @@ class SclClassRepository implements SclClassRepositoryInterface
     public function forceDelete($id)
     {
         if (strpos($id, ',') !== false) {
-            // Handle multiple IDs
             $ids = explode(',', $id);
             return $this->model->withTrashed()->whereIn('id', $ids)->forceDelete();
         }
 
-        // Handle single ID
         $sclClass = $this->model->withTrashed()->findOrFail($id);
         $sclClass->forceDelete();
         return $sclClass;

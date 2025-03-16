@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 class SclClassDataTable extends DataTable
 {
     protected $settings;
-    protected $withTrashed = 'active'; // Default: only active records
+    protected $withTrashed = 'active';
 
     public function dataTable($query)
     {
@@ -47,7 +47,6 @@ class SclClassDataTable extends DataTable
                     $query->where('active_status', $this->request()->get('active_status'));
                 }
 
-                // Apply trashed filter
                 if ($this->request()->has('filter_trashed')) {
                     $trashedFilter = $this->request()->get('filter_trashed');
                     if ($trashedFilter == 'trashed') {
@@ -68,7 +67,6 @@ class SclClassDataTable extends DataTable
     {
         $query = $model->newQuery();
 
-        // Apply trashed filter to base query if needed
         if ($this->withTrashed == 'trashed') {
             $query->onlyTrashed();
         } else if ($this->withTrashed == 'all') {
@@ -414,24 +412,6 @@ class SclClassDataTable extends DataTable
 
         return $columns;
     }
-
-    /**
-     * Set the with trashed parameter.
-     *
-     * @param array|string $key
-     * @param mixed $value
-     * @return static
-     */
-    // public function with($key, $value = null)
-    // {
-    //     if (is_string($key) && $key === 'trashed') {
-    //         $this->withTrashed = $value;
-    //     } else {
-    //         parent::with($key, $value);
-    //     }
-
-    //     return $this;
-    // }
 
     protected function filename(): string
     {

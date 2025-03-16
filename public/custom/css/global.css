@@ -67,3 +67,25 @@ color: #690069 !important;
 .pl-30 {
     padding-left: 30px;
 }
+
+
+#bulk-restore-btn {
+    border-radius: 10px !important;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+#bulk-force-delete-btn {
+    border-radius: 10px !important;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+#clear-selection-btn {
+    border-radius: 10px !important;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+}

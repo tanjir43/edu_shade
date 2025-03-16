@@ -1,5 +1,5 @@
 @push('styles')
-<link rel="stylesheet" href="{{ asset('custom/css/enhanced-datatable.css') }}">
+<link rel="stylesheet" href="{{ asset('custom/css/custom-datatable.css') }}">
 
 @endpush
 
@@ -8,7 +8,7 @@
         <h5>Data Table</h5>
 
         <div class="d-flex align-items-center">
-            <!-- Bulk Actions (Initially Hidden) -->
+            <!-- Bulk Actions -->
             <div id="bulk-actions" class="d-none me-2">
                 <span id="selected-count" class="badge bg-primary me-2">0 selected</span>
 
@@ -17,12 +17,11 @@
                         <i class="fas fa-trash"></i> Delete
                     </button>
 
-                    <!-- Additional buttons that appear when viewing trashed items -->
                     <button type="button" id="bulk-restore-btn" class="btn btn-sm btn-success trashed-action d-none">
                         <i class="fas fa-trash-restore"></i> Restore
                     </button>
 
-                    <button type="button" id="bulk-force-delete-btn" class="btn btn-sm btn-danger trashed-action d-none">
+                    <button type="button" id="bulk-force-delete-btn" class="btn btn-sm btn-danger ms-2 trashed-action d-none">
                         <i class="fas fa-trash-alt"></i> Force Delete
                     </button>
                 </div>
