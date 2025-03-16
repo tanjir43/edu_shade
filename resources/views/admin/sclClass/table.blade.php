@@ -1,5 +1,6 @@
 @push('styles')
 <link rel="stylesheet" href="{{ asset('custom/css/enhanced-datatable.css') }}">
+
 @endpush
 
 <div class="card card-datatable">

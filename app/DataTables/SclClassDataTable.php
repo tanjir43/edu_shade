@@ -150,27 +150,12 @@ class SclClassDataTable extends DataTable
                 }",
             ])
             ->buttons([
-                Button::make('collection')
-                    ->text('<i class="fas fa-file-export"></i> Export')
-                    ->buttons([
-                        Button::make('csv')
-                            ->text('<i class="fas fa-file-csv"></i> CSV')
-                            ->exportOptions(['columns' => ':visible']),
-                        Button::make('excel')
-                            ->text('<i class="fas fa-file-excel"></i> Excel')
-                            ->exportOptions(['columns' => ':visible']),
-                        Button::make('pdf')
-                            ->text('<i class="fas fa-file-pdf"></i> PDF')
-                            ->exportOptions(['columns' => ':visible']),
-                        Button::make('print')
-                            ->text('<i class="fas fa-print"></i> Print')
-                            ->exportOptions(['columns' => ':visible']),
-                    ])
-                    ->addClass('d-none'),
-                Button::make('colvis')
-                    ->addClass('d-none')
-                    ->text('Columns'),
-                ]);
+                Button::make('csv')->addClass('d-none buttons-csv')->exportOptions(['columns' => ':visible']),
+                Button::make('excel')->addClass('d-none buttons-excel')->exportOptions(['columns' => ':visible']),
+                Button::make('pdf')->addClass('d-none buttons-pdf')->exportOptions(['columns' => ':visible']),
+                Button::make('print')->addClass('d-none buttons-print')->exportOptions(['columns' => ':visible']),
+                Button::make('colvis')->addClass('d-none'),
+            ]);
     }
 
     protected function getColumns()
