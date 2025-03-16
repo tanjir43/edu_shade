@@ -1,4 +1,3 @@
-<!-- Updated datatables_actions.blade.php -->
 <div class="action-btn">
     <form action="{{ route('admin.class.destroy', $id) }}" method="POST" id="delete-form-{{ $id }}" class="d-inline">
         @csrf

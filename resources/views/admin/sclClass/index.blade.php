@@ -35,33 +35,25 @@
 
 <script>
     $(document).ready(function() {
-    // Wait for DataTable to be fully initialized
     var dataTableInitialized = false;
     var table;
 
-    // Function to initialize event handlers
     function initializeEventHandlers() {
         if (!dataTableInitialized) return;
 
-        // Setup filter button
         $(document).on('click', '.filter-btn', function() {
             $('#filter-panel').toggleClass('d-none');
         });
 
-        // Position the dropdown after it's created
         function positionDropdown($button) {
-            // Remove any existing dropdowns first
             $('div.dt-button-collection-container').remove();
 
-            // Hide filter panel if it's open
             $('#filter-panel').addClass('d-none');
 
-            // Get the button position
-            var buttonPos = $button.offset();
-            var buttonHeight = $button.outerHeight();
-            var buttonWidth = $button.outerWidth();
+            var buttonPos       = $button.offset();
+            var buttonHeight    = $button.outerHeight();
+            var buttonWidth     = $button.outerWidth();
 
-            // Create a container div at the right position
             var $container = $('<div class="dt-button-collection-container"></div>')
                 .css({
                     'position': 'absolute',
@@ -71,28 +63,22 @@
                 })
                 .appendTo('body');
 
-            // Return the container
             return $container;
         }
 
-        // Custom export button implementation with direct DataTables API
         $(document).on('click', '.export-btn', function(e) {
             e.preventDefault();
             e.stopPropagation();
 
-            // Create dropdown container
             var $container = positionDropdown($(this));
 
-            // Create dropdown content
             var $dropdown = $('<div class="export-dropdown"></div>').appendTo($container);
 
-            // Direct export functions
             var exportOptions = [
                 {
                     icon: 'fa-file-csv',
                     text: 'CSV',
                     action: function() {
-                        // Get visible columns indices
                         var visibleCols = [];
                         table.columns().every(function(index) {
                             if(table.column(index).visible()) {
@@ -100,7 +86,6 @@
                             }
                         });
 
-                        // Export using DataTables API
                         table.buttons.exportData({
                             columns: visibleCols,
                             format: {
@@ -110,7 +95,6 @@
                             }
                         });
 
-                        // Directly trigger the built-in button
                         table.button('.buttons-csv').trigger();
                     }
                 },
@@ -142,41 +126,33 @@
                     .html('<i class="fas ' + option.icon + '"></i> ' + option.text)
                     .on('click', function() {
                         $container.remove();
-                        // Execute the action function
                         option.action();
                     })
                     .appendTo($dropdown);
             });
 
-            // Add click outside to close
             $(document).one('click', function() {
                 $container.remove();
             });
 
-            // Prevent dropdown from closing when clicking inside
             $dropdown.on('click', function(e) {
                 e.stopPropagation();
             });
         });
 
-        // Custom columns button implementation
         $(document).on('click', '.columns-btn', function(e) {
             e.preventDefault();
             e.stopPropagation();
 
-            // Create dropdown container
             var $container = positionDropdown($(this));
 
-            // Create dropdown content
             var $dropdown = $('<div class="columns-dropdown"></div>').appendTo($container);
 
-            // Get all columns
             var columns = table.columns().header().toArray();
 
-            // Add column visibility options
             $(columns).each(function(i, col) {
                 var colTitle = $(col).text().trim();
-                if (colTitle && i > 0) { // Skip checkbox column
+                if (colTitle && i > 0) {
                     var isVisible = table.column(i).visible();
 
                     $('<div class="dropdown-item"></div>')
@@ -196,12 +172,10 @@
                 }
             });
 
-            // Add click outside to close
             $(document).one('click', function() {
                 $container.remove();
             });
 
-            // Prevent dropdown from closing when clicking inside
             $dropdown.on('click', function(e) {
                 e.stopPropagation();
             });
@@ -241,10 +215,8 @@
             table = window.LaravelDataTables["scl-classes-table"];
             dataTableInitialized = true;
 
-            // Initialize event handlers
             initializeEventHandlers();
 
-            // Clear interval once initialized
             clearInterval(checkDataTable);
         }
     }, 100);

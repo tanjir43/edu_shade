@@ -9,7 +9,6 @@
     </div>
 
     <div class="card-body card-body-datatable">
-        <!-- Filter Panel (initially hidden) -->
         <div id="filter-panel" class="filter-panel d-none">
             <div class="row">
                 <div class="col-md-6">
@@ -42,7 +41,7 @@
         {!! $dataTable->table([
             'width' => '100%',
             'class' => 'table table-hover dt-responsive nowrap',
-            'id' => 'scl-classes-table'
+            'id'    => 'scl-classes-table'
         ]) !!}
     </div>
 </div>
